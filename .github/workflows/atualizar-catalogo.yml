@@ -23,12 +23,13 @@ jobs:
       - name: Baixar e validar catálogo oficial Springer
         run: python scripts/importar_springer.py
       - name: Baixar e validar catálogo oficial Wiley
+        continue-on-error: true
         run: python scripts/importar_wiley.py
       - name: Registrar atualização no repositório
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/springer.json data/proveniencia.json data/wiley.json data/wiley-proveniencia.json
+          git add -A data
           if ! git diff --cached --quiet; then
             git commit -m "Atualizar catálogo Springer oficial"
             git push
