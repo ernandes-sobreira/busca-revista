@@ -1,10 +1,11 @@
-name: Atualizar catálogo oficial Springer CAPES
+name: Atualizar catálogos CAPES
 on:
   push:
     paths:
       - '.github/workflows/atualizar-catalogo.yml'
       - 'scripts/importar_springer.py'
       - 'scripts/importar_wiley.py'
+      - 'scripts/importar_elsevier.py'
   workflow_dispatch:
   schedule:
     - cron: '20 10 * * 1'
@@ -19,12 +20,15 @@ jobs:
         with:
           python-version: '3.12'
       - name: Instalar leitor de planilhas
-        run: pip install openpyxl==3.1.5
+        run: pip install openpyxl==3.1.5 pdfplumber==0.11.4
       - name: Baixar e validar catálogo oficial Springer
         run: python scripts/importar_springer.py
       - name: Baixar e validar catálogo oficial Wiley
         continue-on-error: true
         run: python scripts/importar_wiley.py
+      - name: Ler contrato oficial Elsevier 57/2025
+        continue-on-error: true
+        run: python scripts/importar_elsevier.py
       - name: Registrar atualização no repositório
         run: |
           git config user.name 'github-actions[bot]'
