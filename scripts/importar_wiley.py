@@ -31,8 +31,11 @@ def main():
   options=[]
   for i,header in pre:
    h=[str(v or "").strip() for v in header]
-   title=pick(h,["TITULO","TÍTULO","Journal title","Journal Name","Title","Periódico","Título do periódico"])
-   if title is not None: options.append((sum(k is not None for k in [pick(h,["ISSN"]),pick(h,["eISSN"]),pick(h,["Subject"])]),i,h,title))
+   # Nunca aceitar linhas de dados: o nome da coluna precisa coincidir EXATAMENTE.
+   exact=[j for j,v in enumerate(h) if norm(v) in ("titulo","journaltitle","journalname","titulodoperiodico")]
+   if not exact:continue
+   bonus=sum(any(norm(c)==norm(o) for c in h) for o in ["ESSN","ÁREA PRINCIPAL","LINK DE ACESSO URL","FATOR DE IMPACTO"])
+   options.append((bonus,i,h,exact[0]))
   if not options:continue
   _,idx,header,title=max(options)
   isbn=pick(header,["Print ISSN","ISSN","ISSN (Print)"])
