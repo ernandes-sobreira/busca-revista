@@ -1,0 +1,35 @@
+name: Verificar Busca Revista
+on:
+  push:
+    paths:
+      - 'plataforma.html'
+      - 'data/*.json'
+      - 'scripts/validar_painel.py'
+      - '.github/workflows/testar-plataforma.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verificar sintaxe JavaScript
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          html=Path("plataforma.html").read_text(encoding="utf-8")
+          scripts=re.findall(r"<script\b[^>]*>(.*?)</script>",html,flags=re.I|re.S)
+          assert len(scripts)==1, f"Esperado um script embutido, encontrado: {len(scripts)}"
+          Path("/tmp/busca-revista.js").write_text(scripts[0],encoding="utf-8")
+          PY
+          node --check /tmp/busca-revista.js
+      - name: Validar integridade e contagem de periódicos
+        run: python scripts/validar_painel.py
