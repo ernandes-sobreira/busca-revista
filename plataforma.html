@@ -152,7 +152,8 @@ async function recommendFromAbstract(){
   const query1=raw;
   const words=raw.split(/\s+/);
   const query2=words.length>4?words.slice(0,4).join(" "):raw;
-  const queries=[...new Set([query1,query2])];
+  const broadTerms=terms.split(/\s+/).filter(w=>!/^(Salminus|brasiliensis)$/i.test(w)).slice(0,3).join(" ");
+  const queries=[...new Set([query1,query2,broadTerms])].filter(q=>q.split(/\s+/).length>=2);
   const results=await Promise.all(queries.map(async query=>{
    const url="https://api.openalex.org/works?"+new URLSearchParams({
      search:query,filter:"type:article,from_publication_date:2017-01-01",
