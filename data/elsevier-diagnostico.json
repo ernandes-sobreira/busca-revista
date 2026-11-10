@@ -1,0 +1,76 @@
+{
+  "total": 1689,
+  "publicacao": 1615,
+  "apenas_leitura": 74,
+  "faltando": [
+    644,
+    665,
+    1298,
+    1451
+  ],
+  "origem": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/contratos-capes/04122025_Contrato_572025_SEI_2729395.pdf/@@display-file/file",
+  "amostra": [
+    {
+      "titulo": "The Lancet",
+      "issn": "0140-6736",
+      "eissn": "0140-6736",
+      "area": "",
+      "editora": "Elsevier",
+      "status": "Apenas leitura",
+      "cobertura_apc": "nao_coberto",
+      "fonte": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/contratos-capes/04122025_Contrato_572025_SEI_2729395.pdf/@@display-file/file",
+      "origem": "Contrato CAPES Elsevier 57/2025, anexo I Freedom Collection",
+      "atualizado": "2026-11-10",
+      "url": "https://www.elsevier.com/open-access/agreements/capes"
+    },
+    {
+      "titulo": "Journal of the Franklin Institute",
+      "issn": "0016-0032",
+      "eissn": "0016-0032",
+      "area": "",
+      "editora": "Elsevier",
+      "status": "Read & Publish",
+      "cobertura_apc": "elegivel_titulo",
+      "fonte": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/contratos-capes/04122025_Contrato_572025_SEI_2729395.pdf/@@display-file/file",
+      "origem": "Contrato CAPES Elsevier 57/2025, anexo I Freedom Collection",
+      "atualizado": "2026-11-10",
+      "url": "https://www.elsevier.com/open-access/agreements/capes"
+    },
+    {
+      "titulo": "Proceedings of the Geologists' Association",
+      "issn": "0016-7878",
+      "eissn": "0016-7878",
+      "area": "",
+      "editora": "Elsevier",
+      "status": "Read & Publish",
+      "cobertura_apc": "elegivel_titulo",
+      "fonte": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/contratos-capes/04122025_Contrato_572025_SEI_2729395.pdf/@@display-file/file",
+      "origem": "Contrato CAPES Elsevier 57/2025, anexo I Freedom Collection",
+      "atualizado": "2026-11-10",
+      "url": "https://www.elsevier.com/open-access/agreements/capes"
+    }
+  ],
+  "coletado_em": "2026-11-10T14:32:00.952747+00:00",
+  "amostra_texto": [
+    "52 ATLAS OF THE ORAL AND MAXILLOFACIAL SURGERY CLINICS 1061-3315 NL 1996-Presente",
+    "53 CLINICS IN PODIATRIC MEDICINE AND SURGERY 0891-8422 1558-2302 2002-Presente",
+    "FREEDOM COLLECTION",
+    "Cobertura de",
+    "Tipo de acordo",
+    "# Título e-ISSN interesse da",
+    "/ Contratação",
+    "CAPES",
+    "1 The Lancet 0140-6736 1823 - Presente Read",
+    "2 Journal of the Franklin Institute 0016-0032 1826 - Presente Read & Publish",
+    "3 Proceedings of the Geologists' Association 0016-7878 1859 - Presente Read & Publish",
+    "4 Public Health 0033-3506 1888 - Presente Read & Publish",
+    "5 American Journal of Ophthalmology 0002-9394 1918 - Presente Read & Publish",
+    "6 American Journal of Obstetrics and Gynecology 0002-9378 1920 - Presente Read & Publish",
+    "7 American Heart Journal 0002-8703 1925 - Presente Read & Publish",
+    "8 The American Journal of Surgery 0002-9610 1926 - Presente Read & Publish",
+    "9 The Journal of Pediatrics 0022-3476 1932 - Presente Read & Publish",
+    "10 The Journal of the American Dental Association 0002-8177 1939 - Presente Read & Publish",
+    "11 Advances in Pediatrics 0065-3101 1942 - Presente Read",
+    "12 The American Journal of Medicine 0002-9343 1946 - Presente Read & Publish"
+  ]
+}
