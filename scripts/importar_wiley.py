@@ -31,21 +31,23 @@ def main():
   options=[]
   for i,header in pre:
    h=[str(v or "").strip() for v in header]
-   title=pick(h,["Journal title","Journal Name","Journal","Title","Periódico","Título do periódico"])
+   title=pick(h,["TITULO","TÍTULO","Journal title","Journal Name","Title","Periódico","Título do periódico"])
    if title is not None: options.append((sum(k is not None for k in [pick(h,["ISSN"]),pick(h,["eISSN"]),pick(h,["Subject"])]),i,h,title))
   if not options:continue
   _,idx,header,title=max(options)
   isbn=pick(header,["Print ISSN","ISSN","ISSN (Print)"])
-  eisbn=pick(header,["Online ISSN","eISSN","ISSN (Online)"])
-  area=pick(header,["Subject Area","Subject","Discipline","Category"])
-  url=pick(header,["URL","Journal URL","Journal Link"])
+  eisbn=pick(header,["ESSN","Online ISSN","eISSN","ISSN (Online)"])
+  area=pick(header,["ÁREA PRINCIPAL","AREA PRINCIPAL","Subject Area","Subject","Discipline","Category"])
+  url=pick(header,["LINK DE ACESSO URL","URL","Journal URL","Journal Link"])
+  subarea=pick(header,["SUB-ÁREA","SUB AREA","SUBAREA"])
+  factor=pick(header,["FATOR DE IMPACTO","IMPACT FACTOR","JIF"])
   # worksheet reopened to retain rows discarded by lookahead
   for j,row in enumerate(sh.iter_rows(values_only=True)):
    if j<=idx:continue
    def value(k):return re.sub(r"\s+"," ",str(row[k] or "").strip()) if k is not None and len(row)>k else ""
    name=value(title)
-   if len(name)<4 or norm(name) in ("journal","journaltitle","title","journalname"):continue
-   found.append({"titulo":name,"issn":value(isbn),"eissn":value(eisbn),"area":value(area),"editora":"Wiley","status":"Listado no acordo CAPES–Wiley 2026","fonte":LANDING,"origem":SOURCE,"atualizado":datetime.now(timezone.utc).date().isoformat(),"url":value(url)})
+   if len(name)<4 or name.lower().startswith("http") or norm(name) in ("journal","journaltitle","title","journalname"):continue
+   found.append({"titulo":name,"issn":value(isbn),"eissn":value(eisbn),"area":value(area),"subarea":value(subarea),"jif_editora":value(factor),"jif_ano":"Não informado na planilha","editora":"Wiley","status":"Listado no acordo CAPES–Wiley 2026","fonte":LANDING,"origem":SOURCE,"atualizado":datetime.now(timezone.utc).date().isoformat(),"url":value(url)})
  Path('data').mkdir(exist_ok=True)
  Path('data/wiley-schema.json').write_text(json.dumps(diagnostics,ensure_ascii=False,indent=2),encoding='utf-8')
  dedup={}
