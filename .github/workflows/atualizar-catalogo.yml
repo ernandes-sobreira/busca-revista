@@ -1,0 +1,28 @@
+name: Atualizar catálogo oficial Springer CAPES
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '20 10 * * 1'
+permissions:
+  contents: write
+jobs:
+  catalogo-springer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Instalar leitor de planilhas
+        run: pip install openpyxl==3.1.5
+      - name: Baixar e validar catálogo oficial Springer
+        run: python scripts/importar_springer.py
+      - name: Registrar atualização no repositório
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/springer.json data/proveniencia.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Atualizar catálogo Springer oficial"
+            git push
+          fi
