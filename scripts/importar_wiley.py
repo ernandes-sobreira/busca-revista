@@ -21,11 +21,13 @@ def main():
  if len(content)<5000:raise ValueError("Download não parece ser planilha válida")
  wb=load_workbook(io.BytesIO(content),read_only=True,data_only=True)
  found=[]
+ diagnostics=[]
  for sh in wb:
   rows=sh.iter_rows(values_only=True); pre=[]
   for i,row in enumerate(rows):
    if i<30:pre.append((i,list(row)))
    else:break
+  diagnostics.append({'aba':sh.title,'linhas_iniciais':[[str(v or '')[:150] for v in row[:12]] for _,row in pre[:6]]})
   options=[]
   for i,header in pre:
    h=[str(v or "").strip() for v in header]
@@ -44,12 +46,14 @@ def main():
    name=value(title)
    if len(name)<4 or norm(name) in ("journal","journaltitle","title","journalname"):continue
    found.append({"titulo":name,"issn":value(isbn),"eissn":value(eisbn),"area":value(area),"editora":"Wiley","status":"Listado no acordo CAPES–Wiley 2026","fonte":LANDING,"origem":SOURCE,"atualizado":datetime.now(timezone.utc).date().isoformat(),"url":value(url)})
+ Path('data').mkdir(exist_ok=True)
+ Path('data/wiley-schema.json').write_text(json.dumps(diagnostics,ensure_ascii=False,indent=2),encoding='utf-8')
  dedup={}
  for item in found:
   k=norm(item["issn"] or item["eissn"] or item["titulo"])
   dedup[k]=item
  results=sorted(dedup.values(),key=lambda d:d["titulo"].casefold())
- if len(results)<900:raise ValueError(f"Apenas {len(results)} títulos encontrados; abortando para evitar sobrescrever arquivo com importação incompleta.")
+ if len(results)<900 or sum(str(x["titulo"]).startswith("http") for x in results)>10 or sum(bool(x["issn"] or x["eissn"]) for x in results)<600:raise ValueError(f"Apenas {len(results)} títulos encontrados; abortando para evitar sobrescrever arquivo com importação incompleta.")
  out=Path("data");out.mkdir(exist_ok=True)
  (out/"wiley.json").write_text(json.dumps(results,ensure_ascii=False,separators=(",",":")),encoding="utf-8")
  (out/"wiley-proveniencia.json").write_text(json.dumps({"fonte":SOURCE,"pagina":LANDING,"registros":len(results),"coletado_em":datetime.now(timezone.utc).isoformat(),"cobertura":"Periódicos híbridos listados; não prova aprovação de APC de cada artigo"},ensure_ascii=False,indent=2),encoding="utf-8")
