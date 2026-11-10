@@ -67,9 +67,37 @@ const areaPT={
 "Materials Science":"Ciência dos Materiais",
 "Agriculture":"Agricultura",
 "Geography":"Geografia",
-"Plant Sciences":"Botânica"
+"Plant Sciences":"Botânica",
+"Life Sciences":"Ciências da Vida",
+"Social & Behavioral Sciences":"Ciências Sociais e do Comportamento",
+"Business, Economics, Finance & Accounting":"Administração, Economia e Contabilidade",
+"Physical Sciences & Engineering":"Ciências Físicas e Engenharias",
+"Nursing, Dentistry & Healthcare":"Enfermagem, Odontologia e Saúde",
+"Chemistry":"Química",
+"Earth, Space & Environmental Sciences":"Ciências da Terra e Ambientais",
+"Agriculture, Aquaculture & Food Science":"Agricultura, Aquicultura e Alimentos",
+"Mathematics & Statistics":"Matemática e Estatística",
+"Law & Criminology":"Direito e Criminologia",
+"Veterinary Medicine":"Medicina Veterinária",
+"Computer Science & Information Technology":"Computação e Tecnologia da Informação",
+"Art & Applied Arts":"Artes e Artes Aplicadas",
+"General Chemistry":"Química Geral",
+"Water Resource Management":"Gestão de Recursos Hídricos",
+"Decision Sciences":"Ciências da Decisão",
+"Earth and Environmental Science":"Ciências da Terra e Ambientais",
+"Behavioral Science and Psychology":"Ciências do Comportamento e Psicologia",
+"Physics and Astronomy":"Física e Astronomia",
+"Economics and Finance":"Economia e Finanças",
+"Political Science and International Studies":"Ciência Política e Relações Internacionais",
+"Literature, Cultural and Media Studies":"Literatura, Cultura e Mídia",
+"History":"História",
+"Religion and Philosophy":"Religião e Filosofia",
+"Science (multidisciplinary)":"Ciência Multidisciplinar",
+"Law and Criminology":"Direito e Criminologia",
+"#N/A":"Não classificada"
 };
 function areaName(x){return areaPT[x]||x||"Área não informada"}
+function formatISSN(x){const clean=String(x||"").replace(/[^0-9Xx]/g,"").toUpperCase();return clean.length===8?clean.slice(0,4)+"-"+clean.slice(4):String(x||"")}
 function render(){
  const areas=[...new Set(data.map(x=>x.area).filter(Boolean))].sort((a,b)=>areaName(a).localeCompare(areaName(b),"pt-BR"));
  const publishers=[...new Set(data.map(x=>x.editora).filter(Boolean))].sort();
@@ -88,7 +116,7 @@ function render(){
  $("page").textContent="Página "+(page+1)+" de "+pages;
  $("prev").disabled=page===0;$("next").disabled=page>=pages-1;
  $("results").innerHTML=filtered.slice(page*25,(page+1)*25).map(x=>
- '<tr><td><a href="'+E(/^https:\/\//.test(x.url||"")?x.url:x.fonte||"https://www.periodicos.capes.gov.br/")+'" target="_blank" rel="noopener">'+E(x.titulo)+'</a><br><small>'+E(x.issn||x.eissn||"ISSN não informado")+'</small></td>'+
+ '<tr><td><a href="'+E(/^https:\/\//.test(x.url||"")?x.url:x.fonte||"https://www.periodicos.capes.gov.br/")+'" target="_blank" rel="noopener">'+E(x.titulo)+'</a><br><small>'+E(formatISSN(x.issn||x.eissn||"ISSN não informado"))+'</small></td>'+
  '<td><span title="Categoria na fonte: '+E(x.area)+'">'+E(areaName(x.area))+'</span></td>'+
  '<td>'+E((x.editora||"—").replace("Springer Nature — Springer","Springer"))+'</td>'+
  '<td><span class="tag green" title="Título listado no catálogo oficial de uma editora com acordo institucional CAPES–UNEMAT. Confirme a elegibilidade individual da APC.">No acordo*</span></td>'+ '<td><span title="Indicador da planilha Wiley; sem ano JCR verificado">'+E(x.jif_editora&&!["#N/A","None","-"].includes(x.jif_editora)?x.jif_editora+" †":"—")+'</span></td>'+
