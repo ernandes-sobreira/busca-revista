@@ -1,0 +1,55 @@
+{
+  "quantidade": 73,
+  "faltando": [],
+  "amostra": [
+    {
+      "titulo": "ACM Computing Surveys",
+      "issn": "0360-0300",
+      "eissn": "1557-7341",
+      "area": "Computação",
+      "editora": "ACM",
+      "status": "Periódico no acordo CAPES–ACM",
+      "fonte": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/contratos-capes/04122025_SEI_2729393_Contrato_56.pdf/@@display-file/file",
+      "origem": "Contrato CAPES–ACM 56/2025, Anexo I, seção periódicos para publicação",
+      "atualizado": "2026-11-10",
+      "url": "https://dl.acm.org/"
+    },
+    {
+      "titulo": "Communications of the ACM",
+      "issn": "0001-0782",
+      "eissn": "1557-7317",
+      "area": "Computação",
+      "editora": "ACM",
+      "status": "Periódico no acordo CAPES–ACM",
+      "fonte": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/contratos-capes/04122025_SEI_2729393_Contrato_56.pdf/@@display-file/file",
+      "origem": "Contrato CAPES–ACM 56/2025, Anexo I, seção periódicos para publicação",
+      "atualizado": "2026-11-10",
+      "url": "https://dl.acm.org/"
+    },
+    {
+      "titulo": "ACM Transactions on Software Engineering and Methodology",
+      "issn": "1049-331X",
+      "eissn": "1557-7392",
+      "area": "Computação",
+      "editora": "ACM",
+      "status": "Periódico no acordo CAPES–ACM",
+      "fonte": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/contratos-capes/04122025_SEI_2729393_Contrato_56.pdf/@@display-file/file",
+      "origem": "Contrato CAPES–ACM 56/2025, Anexo I, seção periódicos para publicação",
+      "atualizado": "2026-11-10",
+      "url": "https://dl.acm.org/"
+    },
+    {
+      "titulo": "ACM Transactions on Graphics",
+      "issn": "0730-0301",
+      "eissn": "1557-7368",
+      "area": "Computação",
+      "editora": "ACM",
+      "status": "Periódico no acordo CAPES–ACM",
+      "fonte": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/contratos-capes/04122025_SEI_2729393_Contrato_56.pdf/@@display-file/file",
+      "origem": "Contrato CAPES–ACM 56/2025, Anexo I, seção periódicos para publicação",
+      "atualizado": "2026-11-10",
+      "url": "https://dl.acm.org/"
+    }
+  ],
+  "fonte": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/contratos-capes/04122025_SEI_2729393_Contrato_56.pdf/@@display-file/file"
+}

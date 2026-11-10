@@ -1,13 +1,8 @@
 {
-  "total": 1689,
-  "publicacao": 1615,
+  "total": 1693,
+  "publicacao": 1619,
   "apenas_leitura": 74,
-  "faltando": [
-    644,
-    665,
-    1298,
-    1451
-  ],
+  "faltando": [],
   "origem": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/contratos-capes/04122025_Contrato_572025_SEI_2729395.pdf/@@display-file/file",
   "amostra": [
     {
@@ -50,7 +45,7 @@
       "url": "https://www.elsevier.com/open-access/agreements/capes"
     }
   ],
-  "coletado_em": "2026-11-10T14:32:00.952747+00:00",
+  "coletado_em": "2026-11-10T14:35:42.026563+00:00",
   "amostra_texto": [
     "52 ATLAS OF THE ORAL AND MAXILLOFACIAL SURGERY CLINICS 1061-3315 NL 1996-Presente",
     "53 CLINICS IN PODIATRIC MEDICINE AND SURGERY 0891-8422 1558-2302 2002-Presente",
