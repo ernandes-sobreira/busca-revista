@@ -124,6 +124,64 @@ function findCatalogueSource(work,index){
  const title=N(source.display_name||"").replace(/[^a-z0-9]/g,"");
  return title.length>12?journalByName.get(title)||null:null;
 }
+
+// Fallback editorial: correspondência por ESCOPO científico, nunca por método estatístico.
+// Nenhuma seleção é apresentada como evidência de artigos publicados ou chance de aceite.
+const journalScopeGroups={
+ mercury:{test:/mercur|merc[uú]rio|metilmercur|methylmercur|\bhg\b/i,words:/ecotox|toxicolog|contamin|pollut|environmental|aquatic toxic|water air.*soil|environmental quality|fish biology|biology of fishes/i},
+ fish:{test:/\bpeix|fish|fishes|salminus|dourado|ictio|aquatic organism|piscic/i,words:/fish|fisher|aquatic|hydrobiolog|freshwater|ecotox|environmental biology|environmental contamin/i},
+ freshwater:{test:/rio\b|rios\b|river|freshwater|aquatic|[aá]gua|water|pantanal|cuiab[aá]|paraguai/i,words:/aquatic|freshwater|hydrobiolog|water|environment|fish|ecotox|contamin/i},
+ environmental:{test:/meio ambiente|ambiental|environment|pollut|contamin|ecolog|ecossist|ecosystem|ecotoxic|sediment/i,words:/environment|pollut|contamin|ecolog|ecotox|aquatic|hydrobiolog|quality/i},
+ clinical:{test:/patient|paciente|hospital|clinic|clinical|sa[uú]de|health|epidemiol/i,words:/health|medicine|clinical|epidemiolog|public health|nursing/i},
+ agriculture:{test:/agronom|agricultur|crop|cultiv|plantio|solo|soil|safra/i,words:/agricultur|crop|soil|plant|food|farm|agronom/i},
+ education:{test:/educa[cç]|ensino|teaching|learning|escola|students|alunos/i,words:/educat|teaching|learning|pedagog|school|curricul/i},
+ software:{test:/software|computer|algoritm|artificial intelligence|intelig[eê]ncia artificial|comput[aã]/i,words:/comput|software|information systems|artificial intelligence|machine learning/i},
+ statistics:{test:/estudo de estat[ií]stica|statistical methodology|teoria estat[ií]stica|statistics research/i,words:/statistics|statistical|probability|mathematical/i},
+ ecology:{test:/biodivers|biolog|ecolog|popula[cç][aã]o de esp[eé]cies|species diversity|conserva[cç]/i,words:/ecolog|biodivers|conservation|biology|natural history/i}
+};
+const journalScopeBoost=[
+ [/^(Aquatic Toxicology|Ecotoxicology|Environmental Toxicology|Archives of Environmental Contamination and Toxicology|Bulletin of Environmental Contamination and Toxicology)$/i,7,["mercury","fish","freshwater"]],
+ [/^(Environmental Biology of Fishes|Journal of Fish Biology|Ecology of Freshwater Fish|Hydrobiologia|Aquatic Sciences)$/i,5,["fish","freshwater"]],
+ [/^(Environmental Pollution|Environmental Science and Pollution Research|Environmental Monitoring and Assessment|Journal of Environmental Quality|Water, Air, & Soil Pollution)$/i,4,["mercury","environmental","freshwater"]],
+ [/^(Environmental Research|Science of the Total Environment|Chemosphere)$/i,3,["mercury","environmental"]]
+];
+function scopeSuggestions(abstract,terms,onlyCovered){
+ const txt=N(abstract+" "+terms);
+ const active=Object.entries(journalScopeGroups).filter(([,spec])=>spec.test.test(txt)).map(([k])=>k);
+ const subjectSpecific=active.filter(k=>k!=="statistics");
+ if(!subjectSpecific.length)return [];
+ const out=[];
+ for(const j of data){
+  if(onlyCovered&&j.cobertura_apc==="nao_coberto")continue;
+  const title=N(j.titulo||""),meta=N([j.area||"",j.subarea||""].join(" "));
+  let score=0,matched=[];
+  for(const key of subjectSpecific){
+   const cfg=journalScopeGroups[key];
+   if(cfg.words.test(title)){score+=3;matched.push(key)}
+   else if(cfg.words.test(meta)){score+=0.4}
+  }
+  for(const [re,points,groups] of journalScopeBoost){
+   if(re.test(j.titulo||"") && groups.some(group=>subjectSpecific.includes(group)))score+=points;
+  }
+  // Journals outside the central topic must not appear solely from broad subject headings.
+  const textEvidence=matched.length;
+  if(score>=4.5 && textEvidence>=1)out.push({j,score,matched});
+ }
+ return out.sort((a,b)=>b.score-a.score||a.j.titulo.localeCompare(b.j.titulo)).slice(0,10);
+}
+function renderScopeSuggestions(abstract,terms,reason){
+ const status=$("suggestionStatus"),target=$("suggestionResults");
+ const matches=scopeSuggestions(abstract,terms,$("abstractCoverage").value==="yes");
+ if(!matches.length){
+  status.textContent="A consulta científica está indisponível e não foi possível sugerir revistas tematicamente confiáveis com a base cadastrada.";
+  target.innerHTML="";return;
+ }
+ status.textContent=matches.length+" sugestões preliminares por escopo editorial. "+reason+" Não foram verificadas publicações semelhantes nesta modalidade.";
+ target.innerHTML=matches.map(({j,matched})=>{
+  const evidence=[...new Set(matched.map(k=>({mercury:"contaminação e toxicologia",fish:"peixes",freshwater:"ecossistemas aquáticos",environmental:"ciências ambientais",clinical:"saúde",agriculture:"agricultura",education:"educação",software:"computação",statistics:"estatística",ecology:"ecologia"})[k]))].join(", ");
+  return '<article class="panel"><div class="topline"><h3>'+E(j.titulo)+'</h3><span class="tag">'+E(j.editora)+'</span></div><p class="muted">'+E(areaName(j.area))+'</p><p class="muted">Afinidade temática estimada: '+E(evidence)+'. <strong>Conferir escopo e artigos recentes antes de submeter.</strong></p><span class="tag '+(j.cobertura_apc==="nao_coberto"?"yellow":"green")+'">'+(j.cobertura_apc==="nao_coberto"?"Apenas leitura":"Título no acordo CAPES*")+'</span><div class="actions"><a href="'+E(j.url||j.fonte)+'" target="_blank" rel="noopener">Ver periódico ↗</a><a href="'+E(j.fonte)+'" target="_blank" rel="noopener">Condições CAPES ↗</a></div></article>';
+ }).join("");
+}
 let journalByName=new Map();
 let requestSerial=0;
 async function recommendFromAbstract(){
@@ -135,11 +193,12 @@ async function recommendFromAbstract(){
  if(!terms){terms=termsFromAbstract(content);$("scientificTerms").value=terms}
  if(terms.split(/\s+/).length<2){status.textContent="Informe dois ou mais termos temáticos no campo de busca científica.";return}
  const serial=++requestSerial;
- button.disabled=true;button.textContent="Consultando OpenAlex…";
+ button.disabled=true;button.textContent="Analisando revistas…";
  status.textContent="Pesquisando artigos científicos e cruzando os periódicos com o catálogo CAPES…";
  target.innerHTML="";
  try{
   const onlyCovered=$("abstractCoverage").value==="yes";
+  renderScopeSuggestions(content,terms,"Buscando confirmação em artigos científicos…");
   const index=new Map();
   journalByName=new Map();
   for(const j of data){
@@ -153,7 +212,7 @@ async function recommendFromAbstract(){
   const words=raw.split(/\s+/);
   const query2=words.length>4?words.slice(0,4).join(" "):raw;
   const broadTerms=terms.split(/\s+/).filter(w=>!/^(Salminus|brasiliensis)$/i.test(w)).slice(0,3).join(" ");
-  const queries=[...new Set([query1,query2,broadTerms])].filter(q=>q.split(/\s+/).length>=2);
+  const queries=[...new Set([broadTerms||query2])].filter(q=>q.split(/\s+/).length>=2);
   const results=await Promise.all(queries.map(async query=>{
    const url="https://api.openalex.org/works?"+new URLSearchParams({
      search:query,filter:"type:article,from_publication_date:2017-01-01",
@@ -184,8 +243,7 @@ async function recommendFromAbstract(){
     ...group,score:group.works.reduce((sum,w)=>sum+Math.min(w.cited_by_count||0,30)*0.01+1,0)
   })).filter(g=>g.works.length>=1).sort((a,b)=>b.works.length-a.works.length||b.score-a.score).slice(0,10);
   if(!ranked.length){
-   status.textContent="Nenhum periódico do catálogo foi identificado nos artigos encontrados. Experimente termos mais amplos ou selecione todas as revistas.";
-   target.innerHTML="";return
+   renderScopeSuggestions(content,terms,"A busca de artigos não encontrou periódicos correspondentes dentro dos acordos cadastrados.");return
   }
   const total=works.size;
   status.textContent=ranked.length+" periódicos identificados a partir de "+total+" artigos recuperados do OpenAlex. A ordem considera frequência de artigos semelhantes, não probabilidade de aceite.";
@@ -201,8 +259,7 @@ async function recommendFromAbstract(){
   }).join("");
  }catch(err){
   if(serial!==requestSerial)return;
-  status.textContent="Não foi possível consultar o OpenAlex ("+(err.name==="AbortError"?"tempo excedido":err.message)+"). Tente novamente ou use o Journal Finder. Nenhuma recomendação foi inventada.";
-  target.innerHTML="";
+  renderScopeSuggestions(content,terms,"OpenAlex indisponível ("+(err.name==="AbortError"?"tempo excedido":err.message)+"); resultados gerados localmente, sem artigos externos.");
  }finally{if(serial===requestSerial){button.disabled=false;button.textContent="Pesquisar artigos semelhantes"}}
 }
 $("abstractInput").addEventListener("input",()=>{$("scientificTerms").value=""});
