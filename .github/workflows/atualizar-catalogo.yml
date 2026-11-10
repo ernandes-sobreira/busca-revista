@@ -33,6 +33,8 @@ jobs:
       - name: Ler contrato oficial ACM 56/2025
         continue-on-error: true
         run: python scripts/importar_acm.py
+      - name: Auditar bases e controles do painel
+        run: python scripts/validar_painel.py
       - name: Registrar atualização no repositório
         run: |
           git config user.name 'github-actions[bot]'
