@@ -41,6 +41,16 @@ def main():
      pending+=" "+line
     if 1<=len(examples)<3:pass
    if pg==6:examples=lines[:20]
+ # Quatro linhas cuja diagramação do PDF quebra o extrator (verificação manual no Anexo I).
+ overrides={
+ 644:("Nuclear Instruments and Methods in Physics Research Section B: Beam Interactions with Materials and Atoms","0168-583X"),
+ 665:("Nuclear Instruments and Methods in Physics Research Section A: Accelerators, Spectrometers, Detectors and Associated Equipment","0168-9002"),
+ 1298:("Photonics and Nanostructures - Fundamentals and Applications","1569-4410"),
+ 1451:("Radiología (English Edition)","2173-5107"),
+ }
+ for num,(title,issn) in overrides.items():
+  if num not in found:
+   found[num]={"titulo":title,"issn":issn,"eissn":issn,"area":"","editora":"Elsevier","status":"Read & Publish","cobertura_apc":"elegivel_titulo","fonte":PDF,"origem":"Contrato CAPES Elsevier 57/2025, Anexo I; linha fragmentada na extração, conferida no texto oficial","atualizado":datetime.now(timezone.utc).date().isoformat(),"url":SOURCE}
  full=list(found.values())
  eligible=[x for x in full if x["cobertura_apc"]=="elegivel_titulo"]
  meta={"total":len(full),"publicacao":len(eligible),"apenas_leitura":len(full)-len(eligible),"faltando":[i for i in range(1,1694) if i not in found][:50],"origem":PDF,"amostra":full[:3],"coletado_em":datetime.now(timezone.utc).isoformat(),"amostra_texto":examples}
