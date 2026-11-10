@@ -40,7 +40,7 @@ def main():
   # worksheet reopened to retain rows discarded by lookahead
   for j,row in enumerate(sh.iter_rows(values_only=True)):
    if j<=idx:continue
-   def value(k):return re.sub(r"\\s+"," ",str(row[k] or "").strip()) if k is not None and len(row)>k else ""
+   def value(k):return re.sub(r"\s+"," ",str(row[k] or "").strip()) if k is not None and len(row)>k else ""
    name=value(title)
    if len(name)<4 or norm(name) in ("journal","journaltitle","title","journalname"):continue
    found.append({"titulo":name,"issn":value(isbn),"eissn":value(eisbn),"area":value(area),"editora":"Wiley","status":"Listado no acordo CAPES–Wiley 2026","fonte":LANDING,"origem":SOURCE,"atualizado":datetime.now(timezone.utc).date().isoformat(),"url":value(url)})
