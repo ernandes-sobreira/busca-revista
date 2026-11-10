@@ -1,12 +1,27 @@
 {
-  "titulos": 1,
+  "titulos": 1292,
   "urls_como_titulo": 0,
-  "com_issn": 1,
+  "com_issn": 1292,
   "amostra": [
     {
-      "titulo": "Ophthalmic and Physiological Optics",
-      "eissn": "1475-1313",
-      "area": ""
+      "titulo": "Abacus",
+      "eissn": "14676281",
+      "area": "Business, Economics, Finance & Accounting"
+    },
+    {
+      "titulo": "Academic Emergency Medicine",
+      "eissn": "15532712",
+      "area": "Medicine"
+    },
+    {
+      "titulo": "Accounting & Finance",
+      "eissn": "1467629X",
+      "area": "Business, Economics, Finance & Accounting"
+    },
+    {
+      "titulo": "Accounting Perspectives",
+      "eissn": "19113838",
+      "area": "Business, Economics, Finance & Accounting"
     }
   ]
 }
