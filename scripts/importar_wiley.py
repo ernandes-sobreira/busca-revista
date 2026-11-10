@@ -55,7 +55,9 @@ def main():
   k=norm(item["issn"] or item["eissn"] or item["titulo"])
   dedup[k]=item
  results=sorted(dedup.values(),key=lambda d:d["titulo"].casefold())
- if len(results)<900 or sum(str(x["titulo"]).startswith("http") for x in results)>10 or sum(bool(x["issn"] or x["eissn"]) for x in results)<600:raise ValueError(f"Apenas {len(results)} títulos encontrados; abortando para evitar sobrescrever arquivo com importação incompleta.")
+ quality={"titulos":len(results),"urls_como_titulo":sum(str(x["titulo"]).startswith("http") for x in results),"com_issn":sum(bool(x["issn"] or x["eissn"]) for x in results),"amostra":[{"titulo":r["titulo"],"eissn":r["eissn"],"area":r["area"]} for r in results[:4]]}
+ Path("data/wiley-diagnostico.json").write_text(json.dumps(quality,ensure_ascii=False,indent=2),encoding="utf-8")
+ if len(results)<900 or quality["urls_como_titulo"]>10 or quality["com_issn"]<600:raise ValueError(f"Apenas {len(results)} títulos encontrados; abortando para evitar sobrescrever arquivo com importação incompleta.")
  out=Path("data");out.mkdir(exist_ok=True)
  (out/"wiley.json").write_text(json.dumps(results,ensure_ascii=False,separators=(",",":")),encoding="utf-8")
  (out/"wiley-proveniencia.json").write_text(json.dumps({"fonte":SOURCE,"pagina":LANDING,"registros":len(results),"coletado_em":datetime.now(timezone.utc).isoformat(),"cobertura":"Periódicos híbridos listados; não prova aprovação de APC de cada artigo"},ensure_ascii=False,indent=2),encoding="utf-8")
