@@ -6,6 +6,7 @@ on:
       - 'scripts/importar_springer.py'
       - 'scripts/importar_wiley.py'
       - 'scripts/importar_elsevier.py'
+      - 'scripts/importar_acm.py'
   workflow_dispatch:
   schedule:
     - cron: '20 10 * * 1'
@@ -29,6 +30,9 @@ jobs:
       - name: Ler contrato oficial Elsevier 57/2025
         continue-on-error: true
         run: python scripts/importar_elsevier.py
+      - name: Ler contrato oficial ACM 56/2025
+        continue-on-error: true
+        run: python scripts/importar_acm.py
       - name: Registrar atualização no repositório
         run: |
           git config user.name 'github-actions[bot]'
