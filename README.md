@@ -1,28 +1,37 @@
-# Busca Revista UNEMAT — Plataforma de apoio à publicação científica
+# Busca Revista UNEMAT — painel público de publicação científica
 
-**Página principal:** `plataforma.html` (redirecionamento automático de `index.html`).
+Plataforma: https://ernandes-sobreira.github.io/busca-revista/plataforma.html
 
-## Ativar o site
-GitHub → Settings → Pages → Build and deployment → Deploy from a branch → main / (root) → Save.
+## Catálogos institucionais integrados (10/11/2026)
 
-Endereço esperado depois da publicação: https://ernandes-sobreira.github.io/busca-revista/
+| Editora | Registros na base | Elegibilidade do título para APC |
+|---|---:|---|
+| Springer | 1.770 | Lista oficial Springer; confirmação do artigo e autor necessária |
+| Wiley | 1.292 | Planilha oficial CAPES 2026 (periódicos híbridos) |
+| Elsevier | 1.693 | Contrato CAPES 57/2025: **1.619 Read & Publish**, **74 apenas leitura** |
+| ACM | 73 | Contrato CAPES 56/2025, títulos para publicação |
+| Royal Society Publishing | 10 | Página oficial Royal Society CAPES |
+| **Total de linhas** | **4.838** | **4.764 títulos potencialmente com APC coberta**, condicionado à elegibilidade |
 
-## Situação dos dados — 10/11/2026
-- O catálogo inicial possui **12 títulos de exemplo**, incluindo dois periódicos UNEMAT explicitamente sem APC conforme suas páginas.
-- O **catálogo completo de cada editora ainda não foi importado para o repositório**. A aba «Importar catálogos» permite ao navegador ler listas XLSX/CSV oficiais, mas os dados ficam locais até serem exportados e publicados no GitHub.
-- Os totais divulgados pela CAPES (Springer 1.738, Elsevier 1.619, ACM 73, IEEE 217 conforme comunicado de 2024) não são métricas de registros carregados nem garantia de APC para a UNEMAT.
-- A **UNEMAT está na lista de instituições Springer**. Na página oficial da Springer Nature, asterisco identifica as instituições que participam apenas do acordo Springer e **não do Nature**; a universidade aparece com asterisco.
-- O apoio institucional de **R$ 5.000 por docente efetivo** foi informado pelo usuário, mas a norma vigente, o orçamento, a disponibilidade e as regras do benefício **ainda não foram confirmados por documento oficial**. O simulador é hipotético.
+**ACS:** participação institucional da UNEMAT verificada, porém a lista nominal ainda não foi incorporada. A ACS informa que os periódicos da editora são contemplados no acordo CAPES, ressalvadas condições específicas; consultar https://acsopenscience.org/customers/capes/ e https://pubs.acs.org/journal/ . **IEEE:** UNEMAT não localizada na lista institucional divulgada e, portanto, não certificada como elegível.
 
-## Fontes oficiais
-- [CAPES — orientação APC, 06/11/2026](https://www.gov.br/capes/pt-br/assuntos/noticias/saiba-como-publicar-artigos-em-acesso-aberto)
-- [CAPES — instruções completas e Portarias](https://www.gov.br/capes/pt-br/acesso-a-informacao/acoes-e-programas/carta-de-servicos-ao-usuario/obter-acesso-ao-portal-de-periodicos-da-capes)
-- [Springer Nature — acordo CAPES, listas XLSX e instituições](https://www.springernature.com/br/open-science/oa-agreements/brazil/capes)
-- [Elsevier — catálogo elegível por título e assunto](https://agreements.journals.elsevier.com/capes)
-- [Revistas da UNEMAT](https://periodicos.unemat.br/index/pt_BR)
+## Proveniência
+- Springer: `data/springer.json`, extraído da planilha Springer Nature referente ao acordo CAPES.
+- Wiley: `data/wiley.json`, planilha oficial [Wiley CAPES 2026](https://authors.wiley.com/asset/2026-Peri%C3%B3dicos-elegiveis-CAPES-Wiley.xlsx) com 1.292 registros distintos válidos.
+- Elsevier: `data/elsevier.json`, extraído do [Contrato 57/2025](https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/contratos-capes/04122025_Contrato_572025_SEI_2729395.pdf/@@display-file/file) e validado contra o total do contrato.
+- ACM: `data/acm.json`, extraído do [Contrato 56/2025](https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/contratos-capes/04122025_SEI_2729393_Contrato_56.pdf/@@display-file/file).
+- Royal Society: `data/royal-society.json`, [página do acordo](https://royalsociety.org/journals/capes/).
 
-## Critérios
-Aderência temática, ética editorial, indexação e condições de APC vêm antes do uso isolado de JIF ou quartil. Qualis histórico não é critério exclusivo para selecionar revista.
+## Interpretação dos indicadores
+Fator de impacto (`jif_editora`) preenchido somente quando informado pela planilha Wiley. **O ano do JIF não está identificado nessa fonte**: não usar em análises formais antes da conferência no Journal Citation Reports. Quartis SJR e JIF não são inventados.
 
-## Limitações técnicas
-Planilhas XLSX exigem a biblioteca SheetJS via CDN; importação e buscas locais não criam banco central institucional. Uma implantação de produção precisa de base versionada com atualização das listas por editora, auditoria de elegibilidade institucional e de cada periódico, versionamento das normas UNEMAT e eventualmente atualização licenciada de indicadores JCR/Scopus.
+## Apoio UNEMAT
+Foi relatado teto de R$ 5.000 por docente efetivo, **mas a norma atual com esse valor e a disponibilidade orçamentária não foram comprovadas**. A Resolução 011/2013–CONSUNI é histórica e remete o valor a outra norma; consulte a PRPPG antes de assumir elegibilidade financeira.
+
+## Atualização e controle
+- `.github/workflows/atualizar-catalogo.yml`: importações automatizadas de Springer, Wiley, Elsevier e ACM com travas de contagem e proveniência.
+- `.github/workflows/testar-plataforma.yml`: verificação de sintaxe JavaScript e auditoria de arquivos.
+- `scripts/validar_painel.py`: verifica títulos, fontes, quantitativos, cobertura Elsevier e componentes essenciais.
+- Interface em `plataforma.html` com filtro de revistas contempladas para UNEMAT e de cobertura a confirmar, busca de ISSN, área, exportação e checklist editorial.
+
+**Importante:** estar listado em um acordo não é o mesmo que a CAPES aprovar uma APC específica. Verifique instituição, categoria do artigo, autor correspondente, ORCID e modalidade de acesso aberto. Pagamento direto à editora; não há reembolso.
