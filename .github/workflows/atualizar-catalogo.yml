@@ -1,5 +1,9 @@
 name: Atualizar catálogo oficial Springer CAPES
 on:
+  push:
+    paths:
+      - '.github/workflows/atualizar-catalogo.yml'
+      - 'scripts/importar_springer.py'
   workflow_dispatch:
   schedule:
     - cron: '20 10 * * 1'
