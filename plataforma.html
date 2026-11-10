@@ -9,13 +9,13 @@
 <div class="cards"><div class="card"><small>Periódicos na base</small><b id="nTotal">—</b><small>Listas efetivamente importadas</small></div><div class="card"><small>Springer oficial</small><b id="nSpringer">—</b><small>UNEMAT: instituição participante</small></div><div class="card"><small>Editoras CAPES</small><b>7</b><small>Acordos de leitura e publicação</small></div><div class="card"><small>Auxílio UNEMAT informado</small><b>R$ 5 mil</b><small>Norma vigente a verificar</small></div></div>
 <div class="panel"><div class="topline"><h2>Onde publicar?</h2><span class="hint" title="Pesquise por título, ISSN ou assunto. O catálogo carregado e a elegibilidade final não são a mesma coisa.">?</span></div><div class="filter"><input type="search" id="quick" placeholder="Digite nome, ISSN ou área de pesquisa"><button class="primary" id="goSearch">Buscar revista</button></div><div class="actions"><a href="https://journalfinder.elsevier.com/" target="_blank" rel="noopener">Elsevier Journal Finder ↗</a><a href="https://www.periodicos.capes.gov.br/" target="_blank" rel="noopener">CAPES: listas oficiais ↗</a><a href="https://www.scimagojr.com/" target="_blank" rel="noopener">Consultar SJR ↗</a><a href="https://doaj.org/" target="_blank" rel="noopener">DOAJ ↗</a></div></div>
 <div class="grid" style="margin-top:14px"><div class="panel"><h3>Periódicos por área <span class="hint" title="Distribuição por classificação temática presente no catálogo importado. Não representa qualidade ou impacto.">?</span></h3><div id="areaBars"></div></div><div class="panel"><h3>Antes de submeter</h3><p class="short">Confira nesta ordem:</p><div class="scope"><span class="tag">Escopo</span><span class="tag">Indexação</span><span class="tag">Revisão por pares</span><span class="tag">APC</span><span class="tag">Quartil</span><span class="tag">Integridade</span></div><details><summary>Quem paga a publicação?</summary><p>A CAPES paga diretamente à editora quando o periódico, a instituição e o autor correspondente são elegíveis, e o artigo é aceito. A lista oficial fica no Portal CAPES → Acesso Aberto → Pagamentos de artigos (APC). Não há reembolso de pagamentos antecipados. <a href="https://www.gov.br/capes/pt-br/assuntos/noticias/saiba-como-publicar-artigos-em-acesso-aberto" target="_blank">Regra CAPES</a>.</p></details><details><summary>A UNEMAT está coberta?</summary><p>A instituição consta no acordo Springer. Na relação atual, não participa da extensão Nature. Para as demais editoras, conferir a lista institucional específica.</p></details><details><summary>E o auxílio de R$ 5 mil?</summary><p>O valor foi informado para docentes efetivos, mas ainda exige verificação da norma atual, critérios, solicitação e disponibilidade orçamentária. Não se trata de dinheiro automaticamente disponível.</p></details></div></div></section>
-<section class="view" id="resumo"><div class="topline"><h2>Encontre uma revista pelo resumo <span class="hint" title="Ferramenta gratuita de correspondência temática de palavras. Não usa IA generativa, não interpreta método em profundidade e não prevê aceite.">?</span></h2></div>
+<section class="view" id="resumo"><div class="topline"><h2>Encontre uma revista pelo resumo <span class="hint" title="Busca artigos científicos semelhantes no OpenAlex e cruza ISSNs com os catálogos CAPES–UNEMAT. Sem IA paga. A cobertura e a adequação editorial precisam ser conferidas.">?</span></h2></div>
 <div class="panel"><label for="abstractInput" class="muted" style="display:block;margin-bottom:8px">Cole o resumo do artigo em português ou inglês</label>
 <textarea id="abstractInput" rows="8" placeholder="Objetivo, métodos e resultados do estudo..." style="width:100%;min-height:160px;resize:vertical;border:1px solid #d5dfe7;border-radius:10px;padding:14px;font:inherit;font-size:14px"></textarea>
-<div class="filter"><select id="abstractCoverage"><option value="yes">Somente títulos com acordo de publicação CAPES–UNEMAT</option><option value="all">Todos os títulos cadastrados (inclusive só leitura)</option></select><button class="primary" id="suggestJournals">Encontrar revistas</button><button id="clearAbstract">Limpar</button></div>
-<p class="short">Gratuito · Processamento no navegador · O resumo não é enviado ao servidor.</p></div>
-<div id="suggestionStatus" class="muted" style="margin:12px 0"></div><div id="suggestionResults" class="grid"></div>
-<details><summary>Como funciona a recomendação?</summary><p>O sistema cruza termos de pesquisa e áreas temáticas em português e inglês com o título, a área e a subárea das revistas cadastradas. Não usa a leitura de artigos publicados nem IA generativa. Resultados são hipóteses para conferir no site editorial. Quando faltam termos suficientes, o sistema não emite recomendações artificiais.</p></details>
+<div class="filter"><select id="abstractCoverage"><option value="yes">Somente títulos com acordo de publicação CAPES–UNEMAT</option><option value="all">Todos os títulos cadastrados (inclusive só leitura)</option></select><button class="primary" id="suggestJournals">Pesquisar artigos semelhantes</button><button id="clearAbstract">Limpar</button></div>
+<p class="short">Gratuito · O resumo permanece no navegador. Somente termos de busca derivados dele são enviados à API científica OpenAlex.</p></div>
+<div class="panel" style="margin-top:12px"><label for="scientificTerms" class="muted">Termos científicos para buscar artigos <span class="hint" title="Edite os termos em inglês para refinar a busca. Evite citar métodos estatísticos genéricos.">?</span></label><input type="search" id="scientificTerms" style="width:100%;margin-top:7px" placeholder="Ex.: mercury bioaccumulation freshwater fish"></div><div id="suggestionStatus" class="muted" role="status" aria-live="polite" style="margin:12px 0"></div><div id="suggestionResults" class="grid"></div>
+<details><summary>Como funciona a recomendação?</summary><p>A ferramenta consulta artigos científicos reais no OpenAlex por termos temáticos, verifica os periódicos que publicaram esses artigos e os cruza por ISSN com as listas CAPES–UNEMAT. Exibe trabalhos semelhantes como evidência. Não prevê aceite ou qualidade e não utiliza IA generativa. Os termos de busca, não o resumo integral, são enviados ao serviço externo.</p></details>
 </section>
 <section class="view" id="buscar"><div class="topline"><h2>Catálogo de periódicos <span class="hint" title="Registros reais importados de arquivos oficiais. A inclusão na lista de uma editora não assegura APC automaticamente aprovada.">?</span></h2><button id="download">Exportar CSV</button></div><div class="note"><b>Base disponível:</b> periódicos dos acordos Springer, Royal Society, Wiley, Elsevier e ACM com a CAPES, conforme os catálogos efetivamente carregados. † Indicador da planilha Wiley: conferir ano/categoria no JCR. A UNEMAT participa desses acordos, mas a aprovação da APC exige confirmação do artigo e do autor correspondente. Na Elsevier, os títulos “somente leitura” não são contemplados para APC. <a href="https://www.springernature.com/br/open-science/oa-agreements/brazil/capes" target="_blank" rel="noopener">Conferir regras ↗</a><br><span class="muted">Springer, Royal Society e Wiley estão integradas. Elsevier: 1.693 títulos importados (1.619 para publicação; 74 apenas leitura). ACM: 73 títulos importados. ACS: catálogo nominal ainda pendente. A UNEMAT foi confirmada nos acordos Springer, Wiley, Elsevier, ACS, ACM e Royal Society. A IEEE não relaciona UNEMAT em sua lista publicada. Consulte-os na aba Acordos CAPES; o filtro não mostra títulos não cadastrados.</span></div><details><summary>Consultar todos os acordos — editoras ainda não importadas</summary><div class="actions"><a href="https://www.elsevier.com/pt-br/open-access/agreements/brazil" target="_blank" rel="noopener">Elsevier · 1.619 para publicação ↗</a><a href="https://www.wiley.com/en-br/publishing/article/open-access/oa-agreement" target="_blank" rel="noopener">Wiley · UNEMAT participante · 1.296 títulos ↗</a><a href="https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/contratos-capes/04122025_SEI_2729393_Contrato_56.pdf/@@download/file" target="_blank" rel="noopener">ACM · 73 títulos ↗</a><a href="https://open.ieee.org/partners/capes-transformative-agreement/" target="_blank" rel="noopener">IEEE · UNEMAT não localizada ↗</a><a href="https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/contratos-capes/05062026_Contrato25_2024ACS.pdf" target="_blank" rel="noopener">ACS · lista no site oficial ↗</a><a href="https://royalsociety.org/journals/capes/" target="_blank" rel="noopener">Royal Society · UNEMAT confirmada ↗</a></div><p class="muted">Os links abrem os mecanismos oficiais de cada acordo. Os títulos que não estiverem importados não aparecem na filtragem local.</p></details><div class="filter"><input type="search" id="term" placeholder="Pesquisar nome, ISSN ou área em português…"><select id="area"><option value="">Todas as áreas</option></select><select id="publisher"><option value="">Todas as editoras</option></select><select id="coverage" aria-label="Filtrar cobertura CAPES UNEMAT"><option value="all">Todas as revistas cadastradas</option><option value="confirmed">Contempladas cadastradas</option><option value="pending">Cobertura a confirmar</option></select></div><div class="catalog-head"><p class="short" id="count">Carregando registros…</p><div class="scrolltools"><button id="prev">Anterior</button><span id="page" class="muted">1</span><button id="next">Próxima</button></div></div><p class="short">*Contemplado = título presente no acordo Springer + UNEMAT participante. Não é autorização automática de pagamento. <a href="https://www.periodicos.capes.gov.br/" target="_blank" rel="noopener">Condições CAPES ↗</a></p><div class="tablebox"><table><thead><tr><th>Periódico / ISSN</th><th>Área <span class="hint" title="Área de acordo com a planilha original da editora. A classificação pode não coincidir com a área CAPES.">?</span></th><th>Editora</th><th>Acordo <span class="hint" title="Listagem da editora não garante aprovação automática da APC de seu artigo.">?</span></th><th>Impacto <span class="hint" title="Indicador fornecido pela editora quando disponível. Confirme ano e categoria no JCR antes de utilizá-lo.">?</span></th><th>Fonte</th></tr></thead><tbody id="results"></tbody></table></div></section>
 <section class="view" id="acordos"><div class="topline"><h2>Acordos de publicação CAPES</h2><span class="hint" title="São sete editoras com acordos vigentes divulgados pela CAPES em novembro de 2026; as listas e instituições variam por contrato.">?</span></div><div class="panel" id="publishers"></div><details open><summary>Como conferir a cobertura da UNEMAT?</summary><p>Abra <a href="https://www.periodicos.capes.gov.br/" target="_blank">Portal CAPES</a> → <b>Acesso Aberto</b> → <b>Pagamentos de artigos (APC)</b> → selecione editora → consulte as listas de periódicos e instituições. A UNEMAT aparece como participante Springer, mas não do contrato Nature. A CAPES exige também ORCID associado ao Meus Dados, autoria correspondente elegível e licença CC BY. <a href="https://www.gov.br/capes/pt-br/assuntos/noticias/saiba-como-publicar-artigos-em-acesso-aberto" target="_blank">Fonte oficial</a>.</p></details></section>
@@ -85,18 +85,128 @@ function abstractMatch(text,journal){
  if(score<10||(titleHits===0&&areaHits<2))return null;
  return {score,evidence:[...new Set(evidence)].slice(0,4)};
 }
-function recommendFromAbstract(){
- const content=$("abstractInput").value.trim(),status=$("suggestionStatus"),target=$("suggestionResults");
- if(abstractTokens(content).length<35){status.textContent="Cole um resumo mais completo (ao menos 35 palavras relevantes).";target.innerHTML="";return}
- if(!data.length){status.textContent="O catálogo ainda não foi carregado.";return}
- const onlyCovered=$("abstractCoverage").value==="yes";
- const matches=data.map(j=>({j,m:abstractMatch(content,j)})).filter(x=>x.m&&(!onlyCovered||x.j.cobertura_apc!=="nao_coberto")).sort((a,b)=>b.m.score-a.m.score).slice(0,8);
- if(!matches.length){status.textContent="Nenhuma correspondência temática suficiente na base disponível. Tente um resumo mais detalhado.";target.innerHTML="";return}
- status.textContent=matches.length+" sugestões por correspondência temática — não são probabilidades de aceite nem classificação de qualidade.";
- target.innerHTML=matches.map(({j,m})=>'<article class="panel"><div class="topline"><h3>'+E(j.titulo)+'</h3><span class="tag">'+E(j.editora)+'</span></div><p class="muted">'+E(areaName(j.area))+(j.subarea?' · '+E(j.subarea):'')+'</p><p class="muted">Correspondências: '+E(m.evidence.join(", ")||"área de pesquisa")+'</p><div class="actions"><a href="'+E(/^https:\/\//.test(j.url||"")?j.url:j.fonte||"https://www.periodicos.capes.gov.br/")+'" target="_blank" rel="noopener">Ver periódico ↗</a><a href="'+E(j.fonte||"https://www.periodicos.capes.gov.br/")+'" target="_blank" rel="noopener">Ver acordo ↗</a></div></article>').join("");
+
+const scientificPairs=[
+ [["mercurio","mercury","hg","metilmercurio","methylmercury"],"mercury"],
+ [["bioacumulacao","bioaccumulation","biomagnificacao","biomagnification"],"bioaccumulation"],
+ [["peixe","peixes","fish","fishes","piscicultura","ictiofauna","salminus","dourado"],"fish"],
+ [["rio","rios","river","rivers","agua","water","freshwater","aquatico","aquatic","cuiaba","paraguai","taiama"],"freshwater"],
+ [["metal","metais","heavy metal","metals","contaminante","contamination","toxicidade","toxicity"],"contamination"],
+ [["biodiversidade","biodiversity","species","especies","conservacao"],"biodiversity"],
+ [["carbono","carbon","dioxido","co2","metano","methane","emissions","emissoes"],"carbon emissions"],
+ [["mudancas climaticas","climate change","clima","climate","aquecimento"],"climate change"],
+ [["microplastico","microplastic","microplastics","microplasticos"],"microplastics"],
+ [["fitoplancton","phytoplankton"],"phytoplankton"],
+ [["qualidade da agua","water quality"],"water quality"],
+ [["solo","soils","soil","pastagem","pasture"],"soil"],
+ [["educacao","escola","professores","teacher","school","education"],"education"],
+ [["dengue","malaria","leishmaniose","vetores","disease","health"],"public health"],
+ [["algoritmo","software","computacao","algorithm","computer"],"computer science"],
+ [["aprendizagem de maquina","machine learning","inteligencia artificial"],"machine learning"],
+ [["geoprocessamento","sensoriamento remoto","remote sensing","gis"],"remote sensing"]
+];
+function termsFromAbstract(abstract){
+ const normalized=N(abstract);
+ let selected=[];
+ for(const [triggers,english] of scientificPairs){if(triggers.some(t=>normalized.includes(N(t))))selected.push(english)}
+ // Statistical tests are intentionally ignored: the research object drives journal search.
+ const genus=abstract.match(/\b([A-Z][a-z]{3,})\s+([a-z]{4,})\b/g)||[];
+ const taxa=genus.filter(t=>/\b(Salminus|Piaractus|Prochilodus|Caiman|Panthera|Rhinella)\b/.test(t)).slice(0,1);
+ if(taxa.length)selected.unshift(taxa[0]);
+ return [...new Set(selected)].slice(0,6).join(" ");
 }
+function safeIssn(t){return String(t||"").replace(/[^0-9xX]/g,"").toUpperCase()}
+function findCatalogueSource(work,index){
+ const source=work.primary_location&&work.primary_location.source;
+ if(!source || source.type==="repository")return null;
+ const ids=[...(source.issn||[]),source.issn_l].filter(Boolean).map(safeIssn);
+ for(const id of ids){if(index.has(id))return index.get(id)}
+ const title=N(source.display_name||"").replace(/[^a-z0-9]/g,"");
+ return title.length>12?journalByName.get(title)||null:null;
+}
+let journalByName=new Map();
+let requestSerial=0;
+async function recommendFromAbstract(){
+ const status=$("suggestionStatus"),target=$("suggestionResults"),button=$("suggestJournals");
+ const content=$("abstractInput").value.trim();
+ if(abstractTokens(content).length<25){status.textContent="Cole um resumo com informações suficientes sobre o objeto de estudo.";target.innerHTML="";return}
+ if(!data.length){status.textContent="A base de periódicos ainda não carregou.";return}
+ let terms=$("scientificTerms").value.trim();
+ if(!terms){terms=termsFromAbstract(content);$("scientificTerms").value=terms}
+ if(terms.split(/\s+/).length<2){status.textContent="Informe dois ou mais termos temáticos no campo de busca científica.";return}
+ const serial=++requestSerial;
+ button.disabled=true;button.textContent="Consultando OpenAlex…";
+ status.textContent="Pesquisando artigos científicos e cruzando os periódicos com o catálogo CAPES…";
+ target.innerHTML="";
+ try{
+  const onlyCovered=$("abstractCoverage").value==="yes";
+  const index=new Map();
+  journalByName=new Map();
+  for(const j of data){
+   if(onlyCovered && j.cobertura_apc==="nao_coberto")continue;
+   for(const issn of [j.issn,j.eissn]){const key=safeIssn(issn);if(key.length===8)index.set(key,j)}
+   const key=N(j.titulo).replace(/[^a-z0-9]/g,"");
+   if(key.length>12)journalByName.set(key,j);
+  }
+  const raw=terms.replace(/[^\p{L}\p{N}\s-]/gu," ").trim().slice(0,180);
+  const query1=raw;
+  const words=raw.split(/\s+/);
+  const query2=words.length>4?words.slice(0,4).join(" "):raw;
+  const queries=[...new Set([query1,query2])];
+  const results=await Promise.all(queries.map(async query=>{
+   const url="https://api.openalex.org/works?"+new URLSearchParams({
+     search:query,filter:"type:article,from_publication_date:2017-01-01",
+     per_page:"100",select:"id,title,publication_year,primary_location,doi,cited_by_count"
+   });
+   const ctrl=new AbortController();
+   const timeout=setTimeout(()=>ctrl.abort(),14000);
+   try{
+    const response=await fetch(url,{signal:ctrl.signal,headers:{Accept:"application/json"}});
+    if(!response.ok)throw Error("OpenAlex retornou "+response.status);
+    const payload=await response.json();
+    return payload.results||[];
+   }finally{clearTimeout(timeout)}
+  }));
+  if(serial!==requestSerial)return;
+  const works=new Map();for(const list of results){for(const work of list){if(work.id)works.set(work.id,work)}}
+  const groups=new Map();
+  for(const work of works.values()){
+   const j=findCatalogueSource(work,index);if(!j)continue;
+   const title=work.title||"";
+   if(!title || !work.primary_location?.source)continue;
+   const key=j.editora+"|"+safeIssn(j.issn||j.eissn||j.titulo);
+   if(!groups.has(key))groups.set(key,{journal:j,works:[]});
+   const group=groups.get(key);
+   group.works.push(work);
+  }
+  const ranked=[...groups.values()].map(group=>({
+    ...group,score:group.works.reduce((sum,w)=>sum+Math.min(w.cited_by_count||0,30)*0.01+1,0)
+  })).filter(g=>g.works.length>=1).sort((a,b)=>b.works.length-a.works.length||b.score-a.score).slice(0,10);
+  if(!ranked.length){
+   status.textContent="Nenhum periódico do catálogo foi identificado nos artigos encontrados. Experimente termos mais amplos ou selecione todas as revistas.";
+   target.innerHTML="";return
+  }
+  const total=works.size;
+  status.textContent=ranked.length+" periódicos identificados a partir de "+total+" artigos recuperados do OpenAlex. A ordem considera frequência de artigos semelhantes, não probabilidade de aceite.";
+  target.innerHTML=ranked.map(group=>{
+    const j=group.journal;
+    const examples=group.works.slice(0,3).map(w=>'<li><a target="_blank" rel="noopener" href="'+E(w.doi||w.id)+'">'+E(w.title)+'</a> <small>('+(w.publication_year||"s.d.")+')</small></li>').join("");
+    const isReadOnly=j.cobertura_apc==="nao_coberto";
+    return '<article class="panel"><div class="topline"><h3>'+E(j.titulo)+'</h3><span class="tag">'+E(j.editora)+'</span></div>'+
+      '<p class="muted">'+E(areaName(j.area))+' · '+group.works.length+' artigo(s) semelhante(s) encontrado(s)</p>'+
+      '<span class="tag '+(isReadOnly?"yellow":"green")+'">'+(isReadOnly?"Apenas leitura no acordo":"Título no acordo CAPES*")+'</span>'+
+      '<details><summary>Ver artigos que fundamentam a sugestão</summary><ul>'+examples+'</ul></details>'+
+      '<div class="actions"><a href="'+E(j.url||j.fonte)+'" target="_blank" rel="noopener">Periódico ↗</a><a href="'+E(j.fonte)+'" target="_blank" rel="noopener">Condições CAPES ↗</a></div></article>';
+  }).join("");
+ }catch(err){
+  if(serial!==requestSerial)return;
+  status.textContent="Não foi possível consultar o OpenAlex ("+(err.name==="AbortError"?"tempo excedido":err.message)+"). Tente novamente ou use o Journal Finder. Nenhuma recomendação foi inventada.";
+  target.innerHTML="";
+ }finally{if(serial===requestSerial){button.disabled=false;button.textContent="Pesquisar artigos semelhantes"}}
+}
+$("abstractInput").addEventListener("input",()=>{$("scientificTerms").value=""});
 $("suggestJournals").onclick=recommendFromAbstract;
-$("clearAbstract").onclick=()=>{$("abstractInput").value="";$("suggestionResults").innerHTML="";$("suggestionStatus").textContent=""};
+$("clearAbstract").onclick=()=>{requestSerial++;$("abstractInput").value="";$("scientificTerms").value="";$("suggestionResults").innerHTML="";$("suggestionStatus").textContent="";$("suggestJournals").disabled=false;$("suggestJournals").textContent="Pesquisar artigos semelhantes"};
 
 let data=[],filtered=[],page=0,ready=false;
 function show(id){document.querySelectorAll(".tabs button").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===id))}
