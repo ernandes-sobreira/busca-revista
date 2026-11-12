@@ -370,17 +370,33 @@ async function recommendFromAbstract(){
   }
   status.textContent=topic?ranked.length+" periódicos identificados entre os "+works.size+" artigos mais citados do tema “"+topic.name+"”. O OpenAlex apontou esse tema em "+topic.n+" de "+topic.of+" artigos encontrados com “"+seed+"”. Confira se o tema corresponde ao seu resumo. A ordem reflete a quantidade de artigos do tema em cada periódico. Não é probabilidade de aceite."
    :ranked.length+" periódicos identificados a partir de "+works.size+" artigos recuperados do OpenAlex para “"+query+"”. A ordem reflete a quantidade de artigos semelhantes já publicados em cada periódico. Não é probabilidade de aceite.";
+  // Percentual descritivo: fração dos termos da consulta encontrada no título
+  // do artigo com maior sobreposição em cada periódico, nunca chance de aceite.
+  const queryTokens=[...new Set(N(query).split(/[^a-z0-9]+/).filter(w=>w.length>=3))];
+  const sampleTotal=works.size;
   target.innerHTML=ranked.map(group=>{
     const j=group.journal;
     const link=w=>/^https:\/\//.test(w.doi||"")?w.doi:(/^https:\/\/openalex\.org\//.test(w.id||"")?w.id:"https://openalex.org/");
     const examples=group.works.slice(0,3).map(w=>'<li><a target="_blank" rel="noopener" href="'+E(link(w))+'">'+E(w.title)+'</a> <small>('+E(w.publication_year||"s.d.")+')</small></li>').join("");
     const isReadOnly=j.cobertura_apc==="nao_coberto";
+    const titleMatches=group.works.map(w=>{
+      const normalized=" "+N(w.title||"").replace(/[^a-z0-9]+/g," ")+" ";
+      return queryTokens.filter(term=>normalized.includes(" "+term+" "));
+    });
+    const mostMatched=titleMatches.reduce((best,current)=>current.length>best.length?current:best,[]);
+    const matchPct=queryTokens.length?Math.round(100*mostMatched.length/queryTokens.length):null;
+    const samplePct=sampleTotal?100*group.works.length/sampleTotal:0;
+    const percentLabel=samplePct.toLocaleString("pt-BR",{maximumFractionDigits:1})+"%";
+    const evidenceText="Por que foi sugerida? Foram encontrados "+group.works.length+" artigo(s) deste periódico entre os "+sampleTotal+" resultados analisados ("+percentLabel+" da amostra). O periódico também consta do catálogo CAPES consultado.";
+    const termsText=matchPct===null?"Não foi calculada a correspondência dos termos.":"No título com maior sobreposição, "+mostMatched.length+" de "+queryTokens.length+" termos da pesquisa aparecem ("+matchPct+"%)."+(mostMatched.length?" Termos: "+mostMatched.join(", ")+".":" A busca OpenAlex também considera outros campos dos artigos.");
+
     return '<article class="panel"><div class="topline"><h3>'+E(j.titulo)+'</h3><span class="tag">'+E(j.editora)+'</span></div>'+
       '<p class="muted">'+E(areaName(j.area))+' · '+group.works.length+' artigo(s) semelhante(s) encontrado(s)</p>'+
       '<span class="tag '+(isReadOnly?"yellow":"green")+'">'+(isReadOnly?"Apenas leitura no acordo":"Título no acordo CAPES*")+'</span>'+
+      '<div style="margin:12px 0;padding:12px;border:1px solid #dce5ed;border-radius:9px;background:#f7f9fc"><strong>Por que esta revista?</strong><p style="margin:7px 0">'+E(evidenceText)+'</p><p style="margin:7px 0"><strong>Correspondência dos termos no título: '+(matchPct===null?"não calculada":matchPct+"%")+'</strong><br><small>'+E(termsText)+'</small></p><small>Percentuais descritivos da amostra e dos títulos recuperados; não medem a qualidade da revista, a adequação editorial completa ou a probabilidade de aceite.</small></div>'+ 
       '<details><summary>Ver artigos que fundamentam a sugestão</summary><ul>'+examples+'</ul></details>'+
       '<div class="actions"><a href="'+E(safeUrl(j.url||j.fonte))+'" target="_blank" rel="noopener">Periódico ↗</a><a href="'+E(safeUrl(j.fonte))+'" target="_blank" rel="noopener">Condições CAPES ↗</a></div></article>';
-  }).join("");
+  }).join("")+'<p class="note" style="grid-column:1/-1"><strong>Aviso:</strong> Estas sugestões não garantem publicação dos autores, aceite editorial ou custeio CAPES. A escolha deve considerar escopo, avaliação por pares, requisitos de submissão e elegibilidade individual. Os percentuais são descritivos, não probabilidades de aceite.</p>';
  }catch(err){
   if(serial!==requestSerial)return;
   const why=err.name==="AbortError"?"tempo excedido":err.name==="TypeError"?"falha de rede":err.message;
