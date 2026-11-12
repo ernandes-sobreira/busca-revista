@@ -71,7 +71,7 @@
 </style></head><body>
 <header><div class="wrap head"><h1 class="site-title"><img class="site-brand-logo" src="assets/logo-busca-revista.svg" alt="Busca Revista UNEMAT" width="430" height="105"></h1><p class="site-brand-subtitle">Encontre a revista certa para sua pesquisa</p></div></header>
 <main class="wrap">
-<nav class="tabs" aria-label="Seções da plataforma"><button data-tab="inicio" class="active" aria-current="page">Visão geral</button><button data-tab="buscar">Buscar revistas</button><button data-tab="resumo">Pelo resumo (beta)</button><button data-tab="acordos">Acordos CAPES</button><button data-tab="curadoria">Por área</button><button data-tab="impacto">Quartis e impacto</button><button data-tab="predatoria">Identifique a revista</button><button data-tab="recursos">Recursos</button></nav>
+<nav class="tabs" aria-label="Seções da plataforma"><button data-tab="inicio" class="active" aria-current="page">Visão geral</button><button data-tab="buscar">Buscar revistas</button><button data-tab="resumo">Pelo resumo</button><button data-tab="acordos">Acordos CAPES</button><button data-tab="curadoria">Por área</button><button data-tab="impacto">Quartis e impacto</button><button data-tab="predatoria">Identifique a revista</button><button data-tab="recursos">Recursos</button></nav>
 <section class="view active" id="inicio">
 <div class="cards"><div class="card"><small>Periódicos na base</small><b id="nTotal">—</b><small>Listas efetivamente importadas</small></div><div class="card"><small>Springer oficial</small><b id="nSpringer">—</b><small>UNEMAT: instituição participante</small></div><div class="card"><small>Editoras CAPES</small><b>7</b><small>Acordos de leitura e publicação</small></div><div class="card"><small>Auxílio UNEMAT · teto anual</small><b>até R$ 5 mil</b><small>Res. 076/2022-CONSUNI · sujeito a orçamento</small></div></div>
 <div class="panel"><div class="topline"><h2>Onde publicar?</h2><details class="help-pop"><summary aria-label="Como funciona a busca de revistas?">?</summary><div class="help-pop-content"><strong>Como encontrar uma revista?</strong><p>Pesquise pelo nome, ISSN ou área científica e selecione um resultado para conferir seu escopo e as normas de submissão.</p><p><strong>APC:</strong> a presença no catálogo CAPES não garante pagamento automático. A revista, a UNEMAT, o tipo de artigo e o autor correspondente devem atender ao acordo.</p><a href="https://www.periodicos.capes.gov.br/" target="_blank" rel="noopener">Ver regras oficiais CAPES ↗</a></div></details></div><div class="filter"><input type="search" id="quick" aria-label="Buscar revista por nome, ISSN ou área" placeholder="Digite nome, ISSN ou área de pesquisa"><button class="primary" id="goSearch">Buscar revista</button></div><div class="actions"><a href="https://journalfinder.elsevier.com/" target="_blank" rel="noopener">Elsevier Journal Finder ↗</a><a href="https://www.periodicos.capes.gov.br/" target="_blank" rel="noopener">CAPES: listas oficiais ↗</a><a href="https://www.scimagojr.com/" target="_blank" rel="noopener">Consultar SJR ↗</a><a href="https://doaj.org/" target="_blank" rel="noopener">DOAJ ↗</a></div></div>
@@ -172,13 +172,14 @@ function abstractLanguage(t){let pt=0,en=0;for(const w of N(t).split(/[^a-z]+/))
 function keyTermsEnglish(text){
  const firstEnd=(()=>{const m=text.search(/[.!?](\s|$)/);return m<0?text.length:m})();
  const clean=w=>w.replace(/^-+|-+$/g,"");
- const usable=w=>w.length>3&&!/^\d/.test(w)&&!abstractStop.has(w)&&!methodStop.has(w);
+ const generic=new Set("manuscript manuscripts article articles paper papers study studies project projects chapter chapters research publication publications result results discussion sections section objective objectives analysis analyses experiment experiments investigation investigations work works text texts manuscripti".split(" "));
+ const usable=w=>w.length>3&&!/^\d/.test(w)&&!abstractStop.has(w)&&!methodStop.has(w)&&!generic.has(w);
  const tok=t=>N(t).replace(/[^a-z0-9-]+/g," ").split(/\s+/).map(clean).filter(usable);
  const key=w=>w.length>4&&w.endsWith("s")&&!w.endsWith("ss")?w.slice(0,-1):w;
  const first=new Set(tok(text.slice(0,firstEnd)).map(key)),info=new Map();
  tok(text).forEach((w,i)=>{const k=key(w);if(!info.has(k))info.set(k,{word:w,n:0,pos:i});info.get(k).n++});
  return [...info.entries()].map(([k,v])=>({...v,score:v.n*2+(first.has(k)?2:0)+(k.length>=10?1:0)}))
-  .sort((x,y)=>y.score-x.score||x.pos-y.pos).slice(0,4).sort((x,y)=>x.pos-y.pos).map(x=>x.word);
+  .sort((x,y)=>y.score-x.score||x.pos-y.pos).slice(0,7).sort((x,y)=>x.pos-y.pos).map(x=>x.word);
 }
 const scientificPairs=[
  [["mercurio","mercury","hg","metilmercurio","methylmercury"],"mercury"],
@@ -318,6 +319,7 @@ async function recommendFromAbstract(){
  target.innerHTML="";
  let query="",topic=null,seed="";
  const fields="id,title,publication_year,primary_location,doi,cited_by_count";
+ const queryMatches=new Map(),searches=[];
  try{
   const onlyCovered=$("abstractCoverage").value==="yes";
   const index=new Map();
@@ -342,12 +344,24 @@ async function recommendFromAbstract(){
    topic={...best,of:probe.length};query=topic.name;
    status.textContent="Tema identificado: “"+topic.name+"”. Buscando os periódicos que mais publicam nesse tema…";
    list=await openAlexWorks({filter:"primary_topic.id:"+topic.id+",type:article,from_publication_date:2017-01-01",per_page:"100",select:fields});
+   searches.push("Tema OpenAlex: "+topic.name);
+   for(const w of list)if(w.id)queryMatches.set(w.id,new Set([0]));
   }else{
    const raw=terms.replace(/[^\p{L}\p{N}\s-]/gu," ").trim().slice(0,180);
-   // Uma única consulta com os três primeiros termos, para poupar a cota gratuita do OpenAlex.
-   query=raw.split(/\s+/).filter(w=>!/^(Salminus|brasiliensis)$/i.test(w)).slice(0,3).join(" ");
-   if(query.split(/\s+/).length<2)query=raw.split(/\s+/).slice(0,3).join(" ");
-   list=await openAlexWorks({search:query,filter:"type:article,from_publication_date:2017-01-01",per_page:"100",select:fields});
+   // Consultas temáticas complementares: não usar apenas 3 palavras como critério de qualidade.
+   const words=[...new Set(raw.split(/\s+/).filter(Boolean))].slice(0,7);
+   const candidates=[];
+   if(words.length>=2)candidates.push(words.slice(0,Math.min(3,words.length)).join(" "));
+   if(words.length>=4)candidates.push(words.slice(2,Math.min(5,words.length)).join(" "));
+   if(words.length>=6)candidates.push(words.slice(4,7).join(" "));
+   if(words.length===5)candidates.push(words.slice(3,5).join(" "));
+   const queries=[...new Set(candidates)].filter(q=>q.split(" ").length>=2).slice(0,3);
+   if(!queries.length){status.textContent="Informe pelo menos dois termos temáticos em inglês para consultar os artigos.";return}
+   query=queries.join(" | ");
+   const batches=await Promise.all(queries.map(q=>openAlexWorks({search:q,filter:"type:article,from_publication_date:2017-01-01",per_page:"100",select:fields}).then(rows=>({q,rows}))));
+   list=[];
+   batches.forEach(({q,rows},i)=>{searches.push(q);for(const w of rows){list.push(w);if(!w.id)continue;if(!queryMatches.has(w.id))queryMatches.set(w.id,new Set());queryMatches.get(w.id).add(i)}});
+   if(serial!==requestSerial)return;
   }
   if(serial!==requestSerial)return;
   const works=new Map();for(const work of list){if(work.id)works.set(work.id,work)}
@@ -368,38 +382,35 @@ async function recommendFromAbstract(){
    if(topic){status.textContent="O OpenAlex identificou o tema “"+topic.name+"”, mas nenhum dos "+works.size+" artigos mais citados desse tema saiu em periódico dos acordos cadastrados. Áreas que publicam sobretudo em revistas nacionais costumam ficar fora desses acordos. Se o tema não corresponde ao resumo, escreva de 2 a 5 termos em inglês no campo abaixo.";target.innerHTML="";return}
    renderScopeSuggestions(content,terms,"O OpenAlex respondeu, mas nenhum artigo recuperado para “"+query+"” saiu em periódico dos acordos cadastrados.");return
   }
-  status.textContent=topic?ranked.length+" periódicos identificados entre os "+works.size+" artigos mais citados do tema “"+topic.name+"”. O OpenAlex apontou esse tema em "+topic.n+" de "+topic.of+" artigos encontrados com “"+seed+"”. Confira se o tema corresponde ao seu resumo. A ordem reflete a quantidade de artigos do tema em cada periódico. Não é probabilidade de aceite."
-   :ranked.length+" periódicos identificados a partir de "+works.size+" artigos recuperados do OpenAlex para “"+query+"”. A ordem reflete a quantidade de artigos semelhantes já publicados em cada periódico. Não é probabilidade de aceite.";
-  // Percentual descritivo: fração dos termos da consulta encontrada no título
-  // do artigo com maior sobreposição em cada periódico, nunca chance de aceite.
-  const queryTokens=[...new Set(N(query).split(/[^a-z0-9]+/).filter(w=>w.length>=3))];
+  status.textContent=ranked.length+" periódicos encontrados em "+works.size+" artigos distintos, após "+searches.length+" consulta(s) temática(s) ao OpenAlex. "+(topic?"Tema identificado: "+topic.name+". ":"")+"A ordem prioriza quantidade de evidências, não chance de publicação.";
   const sampleTotal=works.size;
   target.innerHTML=ranked.map(group=>{
     const j=group.journal;
     const link=w=>/^https:\/\//.test(w.doi||"")?w.doi:(/^https:\/\/openalex\.org\//.test(w.id||"")?w.id:"https://openalex.org/");
     const examples=group.works.slice(0,3).map(w=>'<li><a target="_blank" rel="noopener" href="'+E(link(w))+'">'+E(w.title)+'</a> <small>('+E(w.publication_year||"s.d.")+')</small></li>').join("");
     const isReadOnly=j.cobertura_apc==="nao_coberto";
-    const titleMatches=group.works.map(w=>{
-      const normalized=" "+N(w.title||"").replace(/[^a-z0-9]+/g," ")+" ";
-      return queryTokens.filter(term=>normalized.includes(" "+term+" "));
-    });
-    const mostMatched=titleMatches.reduce((best,current)=>current.length>best.length?current:best,[]);
-    const matchPct=queryTokens.length?Math.round(100*mostMatched.length/queryTokens.length):null;
-    const samplePct=sampleTotal?100*group.works.length/sampleTotal:0;
-    const percentLabel=samplePct.toLocaleString("pt-BR",{maximumFractionDigits:1})+"%";
-    const evidenceText="Por que foi sugerida? Foram encontrados "+group.works.length+" artigo(s) deste periódico entre os "+sampleTotal+" resultados analisados ("+percentLabel+" da amostra). O periódico também consta do catálogo CAPES consultado.";
-    const termsText=matchPct===null?"Não foi calculada a correspondência dos termos.":mostMatched.length+" de "+queryTokens.length+" termos pesquisados aparecem no título do artigo com maior correspondência nesta revista."+(mostMatched.length?" Termos encontrados: "+mostMatched.join(", ")+".":" A pesquisa do OpenAlex também considera o resumo e outros campos.");
+    const matchedSearches=new Set();
+    for(const w of group.works){for(const i of queryMatches.get(w.id)||[])matchedSearches.add(i)}
+    const searchCount=matchedSearches.size;
+    const coveragePct=searches.length?Math.round(100*searchCount/searches.length):0;
+    const coveredTopics=[...matchedSearches].sort((a,b)=>a-b).map(i=>searches[i]);
+    const evidenceText="Foram identificados "+group.works.length+" artigo(s) distintos publicados neste periódico entre os "+sampleTotal+" artigos recuperados na pesquisa. O periódico consta do catálogo CAPES consultado.";
+    const coverageText=searches.length>1?"A revista apareceu em "+searchCount+" de "+searches.length+" consultas temáticas realizadas.":"A revista apareceu na consulta temática realizada.";
+    const evidenceLevel=group.works.length>=5?"Várias evidências":group.works.length>=2?"Algumas evidências":"Evidência limitada";
 
     return '<article class="panel"><div class="topline"><h3>'+E(j.titulo)+'</h3><span class="tag">'+E(j.editora)+'</span></div>'+
       '<p class="muted">'+E(areaName(j.area))+' · '+group.works.length+' artigo(s) semelhante(s) encontrado(s)</p>'+
       '<span class="tag '+(isReadOnly?"yellow":"green")+'">'+(isReadOnly?"Apenas leitura no acordo":"Título no acordo CAPES*")+'</span>'+
       '<div style="margin:12px 0;padding:14px;border:1px solid #dce5ed;border-radius:10px;background:#f7f9fc"><strong>Por que esta revista?</strong><p style="margin:8px 0">'+E(evidenceText)+'</p>'+
-      '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0 6px"><strong>Termos da pesquisa encontrados no título</strong><strong style="font-size:18px;color:#12627d">'+(matchPct===null?"—":matchPct+"%")+'</strong></div>'+
-      '<div role="progressbar" aria-label="Porcentagem dos termos pesquisados presentes no título de um artigo" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+(matchPct===null?0:matchPct)+'" style="height:12px;background:#dae4ed;border-radius:20px;overflow:hidden"><div style="width:'+(matchPct===null?0:matchPct)+'%;height:100%;background:#12627d;border-radius:20px"></div></div>'+
-      '<p style="margin:8px 0"><small>'+E(termsText)+'</small></p><small><strong>Como ler:</strong> 33% significa 1 de 3 termos; 67% significa 2 de 3. É uma comparação de palavras do título do artigo, não uma nota de adequação da revista nem chance de publicação. O percentual da amostra indica quantos artigos desta revista apareceram entre os resultados analisados.</small></div>'+ 
+      '<p style="margin:8px 0"><strong>'+E(evidenceLevel)+'</strong> · '+group.works.length+' artigo(s) encontrados. <small>É uma contagem de evidências, não um índice de qualidade editorial.</small></p>'+
+      '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0 6px"><strong>Cobertura das buscas temáticas</strong><strong style="font-size:17px;color:#12627d">'+searchCount+' de '+searches.length+'</strong></div>'+
+      '<div role="progressbar" aria-label="Proporção de buscas temáticas com artigos encontrados na revista" aria-valuemin="0" aria-valuemax="'+searches.length+'" aria-valuenow="'+searchCount+'" style="height:12px;background:#dae4ed;border-radius:20px;overflow:hidden"><div style="width:'+coveragePct+'%;height:100%;background:#12627d;border-radius:20px"></div></div>'+
+      '<p style="margin:8px 0"><small>'+E(coverageText)+'</small></p>'+
+      '<details><summary>Ver temas pesquisados ('+searches.length+')</summary><ol>'+searches.map((q,i)=>'<li>'+E(q)+(matchedSearches.has(i)?' — artigo encontrado nesta revista':' — sem artigo nesta revista na amostra')+'</li>').join("")+'</ol></details>'+
+      '<small>As barras mostram cobertura das consultas, não grau de compatibilidade editorial nem chance de aceite. Consulte os artigos abaixo e confirme o escopo no site da revista.</small></div>'+
       '<details><summary>Ver artigos que fundamentam a sugestão</summary><ul>'+examples+'</ul></details>'+
       '<div class="actions"><a href="'+E(safeUrl(j.url||j.fonte))+'" target="_blank" rel="noopener">Periódico ↗</a><a href="'+E(safeUrl(j.fonte))+'" target="_blank" rel="noopener">Condições CAPES ↗</a></div></article>';
-  }).join("")+'<p class="note" style="grid-column:1/-1"><strong>Aviso:</strong> Estas sugestões não garantem publicação dos autores, aceite editorial ou custeio CAPES. A escolha deve considerar escopo, avaliação por pares, requisitos de submissão e elegibilidade individual. Os percentuais são descritivos, não probabilidades de aceite.</p>';
+  }).join("")+'<p class="note" style="grid-column:1/-1"><strong>Aviso:</strong> Estas sugestões não garantem publicação dos autores, aceite editorial ou custeio CAPES. A escolha deve considerar escopo, avaliação por pares, requisitos de submissão e elegibilidade individual. As quantidades e barras representam apenas evidências da busca, não probabilidades de aceite.</p>';
  }catch(err){
   if(serial!==requestSerial)return;
   const why=err.name==="AbortError"?"tempo excedido":err.name==="TypeError"?"falha de rede":err.message;
