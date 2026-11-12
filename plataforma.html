@@ -364,7 +364,9 @@ async function recommendFromAbstract(){
     ...group,score:group.works.reduce((sum,w)=>sum+Math.min(w.cited_by_count||0,30)*0.01+1,0)
   })).sort((a,b)=>b.works.length-a.works.length||b.score-a.score).slice(0,10);
   if(!ranked.length){
-   renderScopeSuggestions(content,topic?topic.name:terms,topic?"O OpenAlex identificou o tema “"+topic.name+"”, mas nenhum dos 100 artigos mais citados desse tema saiu em periódico dos acordos cadastrados. Áreas que publicam sobretudo em revistas nacionais costumam ficar fora desses acordos.":"O OpenAlex respondeu, mas nenhum artigo recuperado para “"+query+"” saiu em periódico dos acordos cadastrados.");return
+   // Com tema identificado e nenhum periódico dos acordos, não há sugestão: comparar o nome do tema com títulos geraria ruído.
+   if(topic){status.textContent="O OpenAlex identificou o tema “"+topic.name+"”, mas nenhum dos "+works.size+" artigos mais citados desse tema saiu em periódico dos acordos cadastrados. Áreas que publicam sobretudo em revistas nacionais costumam ficar fora desses acordos. Se o tema não corresponde ao resumo, escreva de 2 a 5 termos em inglês no campo abaixo.";target.innerHTML="";return}
+   renderScopeSuggestions(content,terms,"O OpenAlex respondeu, mas nenhum artigo recuperado para “"+query+"” saiu em periódico dos acordos cadastrados.");return
   }
   status.textContent=topic?ranked.length+" periódicos identificados entre os "+works.size+" artigos mais citados do tema “"+topic.name+"”. O OpenAlex apontou esse tema em "+topic.n+" de "+topic.of+" artigos encontrados com “"+seed+"”. Confira se o tema corresponde ao seu resumo. A ordem reflete a quantidade de artigos do tema em cada periódico. Não é probabilidade de aceite."
    :ranked.length+" periódicos identificados a partir de "+works.size+" artigos recuperados do OpenAlex para “"+query+"”. A ordem reflete a quantidade de artigos semelhantes já publicados em cada periódico. Não é probabilidade de aceite.";
@@ -383,7 +385,8 @@ async function recommendFromAbstract(){
   if(serial!==requestSerial)return;
   const why=err.name==="AbortError"?"tempo excedido":err.name==="TypeError"?"falha de rede":err.message;
   if(byTopic&&!topic){status.textContent="OpenAlex indisponível ("+why+"). Sem ele não é possível identificar o tema de um resumo em português. Escreva de 2 a 5 termos em inglês no campo abaixo ou tente mais tarde.";target.innerHTML="";$("scientificTerms").focus();return}
-  renderScopeSuggestions(content,topic?topic.name:terms,"OpenAlex indisponível ("+(err.name==="AbortError"?"tempo excedido":err.name==="TypeError"?"falha de rede":err.message)+"); resultado gerado localmente.");
+  if(topic){status.textContent="Tema identificado: “"+topic.name+"”, mas o OpenAlex ficou indisponível ("+why+") antes de listar os periódicos. Tente de novo em instantes.";target.innerHTML="";return}
+  renderScopeSuggestions(content,terms,"OpenAlex indisponível ("+(err.name==="AbortError"?"tempo excedido":err.name==="TypeError"?"falha de rede":err.message)+"); resultado gerado localmente.");
  }finally{if(serial===requestSerial){button.disabled=false;button.textContent="Pesquisar artigos semelhantes"}}
 }
 $("abstractInput").addEventListener("input",()=>{$("scientificTerms").value=""});
