@@ -71,17 +71,17 @@
 </style></head><body>
 <header><div class="wrap head"><h1 class="site-title"><img class="site-brand-logo" src="assets/logo-busca-revista.svg" alt="Busca Revista UNEMAT" width="430" height="105"></h1><p class="site-brand-subtitle">Encontre a revista certa para sua pesquisa</p></div></header>
 <main class="wrap">
-<nav class="tabs" aria-label="Seções da plataforma"><button data-tab="inicio" class="active" aria-current="page">Visão geral</button><button data-tab="buscar">Buscar revistas</button><button data-tab="resumo">Encontrar pelo resumo</button><button data-tab="acordos">Acordos CAPES</button><button data-tab="curadoria">Por área</button><button data-tab="impacto">Quartis e impacto</button><button data-tab="predatoria">Identifique a revista</button><button data-tab="recursos">Recursos</button></nav>
+<nav class="tabs" aria-label="Seções da plataforma"><button data-tab="inicio" class="active" aria-current="page">Visão geral</button><button data-tab="buscar">Buscar revistas</button><button data-tab="resumo">Pelo resumo (beta)</button><button data-tab="acordos">Acordos CAPES</button><button data-tab="curadoria">Por área</button><button data-tab="impacto">Quartis e impacto</button><button data-tab="predatoria">Identifique a revista</button><button data-tab="recursos">Recursos</button></nav>
 <section class="view active" id="inicio">
 <div class="cards"><div class="card"><small>Periódicos na base</small><b id="nTotal">—</b><small>Listas efetivamente importadas</small></div><div class="card"><small>Springer oficial</small><b id="nSpringer">—</b><small>UNEMAT: instituição participante</small></div><div class="card"><small>Editoras CAPES</small><b>7</b><small>Acordos de leitura e publicação</small></div><div class="card"><small>Auxílio UNEMAT · teto anual</small><b>até R$ 5 mil</b><small>Res. 076/2022-CONSUNI · sujeito a orçamento</small></div></div>
 <div class="panel"><div class="topline"><h2>Onde publicar?</h2><details class="help-pop"><summary aria-label="Como funciona a busca de revistas?">?</summary><div class="help-pop-content"><strong>Como encontrar uma revista?</strong><p>Pesquise pelo nome, ISSN ou área científica e selecione um resultado para conferir seu escopo e as normas de submissão.</p><p><strong>APC:</strong> a presença no catálogo CAPES não garante pagamento automático. A revista, a UNEMAT, o tipo de artigo e o autor correspondente devem atender ao acordo.</p><a href="https://www.periodicos.capes.gov.br/" target="_blank" rel="noopener">Ver regras oficiais CAPES ↗</a></div></details></div><div class="filter"><input type="search" id="quick" aria-label="Buscar revista por nome, ISSN ou área" placeholder="Digite nome, ISSN ou área de pesquisa"><button class="primary" id="goSearch">Buscar revista</button></div><div class="actions"><a href="https://journalfinder.elsevier.com/" target="_blank" rel="noopener">Elsevier Journal Finder ↗</a><a href="https://www.periodicos.capes.gov.br/" target="_blank" rel="noopener">CAPES: listas oficiais ↗</a><a href="https://www.scimagojr.com/" target="_blank" rel="noopener">Consultar SJR ↗</a><a href="https://doaj.org/" target="_blank" rel="noopener">DOAJ ↗</a></div></div>
 <div class="grid" style="margin-top:14px"><div class="panel"><h3>Periódicos por área <span class="hint" title="Distribuição por classificação temática presente no catálogo importado. Não representa qualidade ou impacto.">?</span></h3><div id="areaBars"></div></div><div class="panel"><h3>Antes de submeter</h3><p class="short">Confira nesta ordem:</p><div class="scope"><span class="tag">Escopo</span><span class="tag">Indexação</span><span class="tag">Revisão por pares</span><span class="tag">APC</span><span class="tag">Quartil</span><span class="tag">Integridade</span></div><div class="note" style="margin-top:13px"><strong>Após publicar:</strong> compartilhe o link oficial do artigo ou DOI, em vez de enviar apenas o PDF. O link facilita acesso à página editorial, versão atualizada e métricas — não garante mais citações.</div><details><summary>Quem paga a publicação?</summary><p>A CAPES paga diretamente à editora quando o periódico, a instituição e o autor correspondente são elegíveis, e o artigo é aceito. A lista oficial fica no Portal CAPES → Acesso Aberto → Pagamentos de artigos (APC). Não há reembolso de pagamentos antecipados. <a href="https://www.gov.br/capes/pt-br/assuntos/noticias/saiba-como-publicar-artigos-em-acesso-aberto" target="_blank" rel="noopener">Regra CAPES</a>.</p></details><details><summary>A UNEMAT está coberta?</summary><p>A instituição consta no acordo Springer. Na relação atual, não participa da extensão Nature. Para as demais editoras, conferir a lista institucional específica.</p></details><details><summary>E o auxílio de R$ 5 mil?</summary><p>A Resolução 076/2022-CONSUNI prevê auxílio de até R$ 5.000 por pesquisador por ano para servidores efetivos da UNEMAT (docentes e PTES), mediante comprovação das despesas e dentro do orçamento disponível. Não é saldo automático. <a href="https://unemat.br/pro-reitoria/prppg/auxilio-financeiro-ao-pesquisador" target="_blank" rel="noopener">Norma e formulários na PRPPG ↗</a></p></details></div></div></section>
-<section class="view" id="resumo"><div class="topline"><h2>Encontre uma revista pelo resumo <span class="hint" title="Busca artigos científicos semelhantes no OpenAlex e cruza ISSNs com os catálogos CAPES–UNEMAT. Sem IA paga. A cobertura e a adequação editorial precisam ser conferidas.">?</span></h2></div>
+<section class="view" id="resumo"><div class="topline"><h2>Revistas dos acordos CAPES para o tema do seu resumo <small class="tag">beta</small> <span class="hint" title="Busca artigos científicos semelhantes no OpenAlex e cruza ISSNs com os catálogos CAPES–UNEMAT. Mostra apenas periódicos dos acordos cadastrados, não a melhor revista em geral. Áreas que publicam sobretudo em revistas nacionais podem ter poucos resultados. Sem IA paga. A cobertura e a adequação editorial precisam ser conferidas.">?</span></h2></div>
 <div class="panel"><label for="abstractInput" class="muted" style="display:block;margin-bottom:8px">Cole o resumo do artigo em português ou inglês</label>
 <textarea id="abstractInput" rows="8" placeholder="Objetivo, métodos e resultados do estudo..." style="width:100%;min-height:160px;resize:vertical;border:1px solid #d5dfe7;border-radius:10px;padding:14px;font:inherit;font-size:14px"></textarea>
 <div class="filter"><select id="abstractCoverage" aria-label="Cobertura considerada na recomendação"><option value="yes">Somente títulos com acordo de publicação CAPES–UNEMAT</option><option value="all">Todos os títulos cadastrados (inclusive só leitura)</option></select><button class="primary" id="suggestJournals">Pesquisar artigos semelhantes</button><button id="clearAbstract">Limpar</button></div>
 <p class="short">Gratuito · O resumo permanece no navegador. Somente termos de busca derivados dele são enviados à API científica OpenAlex.</p></div>
-<div class="panel" style="margin-top:12px"><label for="scientificTerms" class="muted">Termos científicos em inglês (gerados do resumo; revise antes de pesquisar) <span class="hint" title="Use de 2 a 5 termos em inglês sobre o objeto do estudo. A consulta usa os três primeiros. Métodos estatísticos são ignorados. Resumos em português só geram termos para os temas do dicionário interno; nos demais casos, digite os termos.">?</span></label><input type="search" id="scientificTerms" style="width:100%;margin-top:7px" placeholder="Ex.: mercury bioaccumulation freshwater fish"></div><div id="suggestionStatus" class="muted" role="status" aria-live="polite" style="margin:12px 0"></div><div id="suggestionResults" class="grid"></div>
+<div class="panel" style="margin-top:12px"><label for="scientificTerms" class="muted">Termos científicos em inglês (gerados do resumo; revise antes de pesquisar) <span class="hint" title="Use de 2 a 5 termos em inglês sobre o objeto do estudo. A consulta usa os três primeiros. Métodos estatísticos são ignorados. Em resumo em português fora do dicionário interno, o campo fica vazio e o tema é identificado pelo OpenAlex; para refinar, digite os termos em inglês.">?</span></label><input type="search" id="scientificTerms" style="width:100%;margin-top:7px" placeholder="Ex.: mercury bioaccumulation freshwater fish"></div><div id="suggestionStatus" class="muted" role="status" aria-live="polite" style="margin:12px 0"></div><div id="suggestionResults" class="grid"></div>
 <details><summary>Como funciona a recomendação?</summary><p>A ferramenta consulta artigos científicos reais no OpenAlex por termos temáticos, verifica os periódicos que publicaram esses artigos e os cruza por ISSN com as listas CAPES–UNEMAT. Exibe trabalhos semelhantes como evidência. Não prevê aceite ou qualidade e não utiliza IA generativa. Os termos de busca, não o resumo integral, são enviados ao serviço externo. Se o OpenAlex recusar a consulta (erro 429, cota gratuita esgotada) ou estiver fora do ar, a página compara os termos com o título e a área dos periódicos cadastrados e avisa que nenhum artigo foi verificado.</p></details>
 </section>
 <section class="view" id="buscar"><div class="topline"><h2>Catálogo de periódicos <span class="hint" title="Registros reais importados de arquivos oficiais. A inclusão na lista de uma editora não assegura APC automaticamente aprovada.">?</span></h2><button id="download">Exportar CSV</button></div><div class="note"><b>Base:</b> títulos dos acordos CAPES com Springer, Wiley, Elsevier, ACM e Royal Society. A UNEMAT consta nas listas de instituições dessas editoras e da ACS (títulos ACS ainda não importados); não foi localizada na lista da IEEE e não participa da extensão Nature. Estar na lista não garante a APC: a CAPES confere artigo, autor correspondente e instituição após o aceite. Na Elsevier, títulos “somente leitura” não têm APC coberta. † Indicador da planilha Wiley, sem ano informado: confira no JCR.</div><div class="filter"><input type="search" id="term" aria-label="Pesquisar no catálogo por nome, ISSN ou área" placeholder="Pesquisar nome, ISSN ou área em português…"><select id="area" aria-label="Filtrar por área"><option value="">Todas as áreas</option></select><select id="publisher" aria-label="Filtrar por editora"><option value="">Todas as editoras</option></select><select id="coverage" aria-label="Filtrar cobertura CAPES UNEMAT"><option value="all">Todas as revistas cadastradas</option><option value="confirmed">Título no acordo de publicação</option><option value="pending">Somente leitura (sem APC)</option></select></div><div class="catalog-head"><p class="short" id="count">Carregando registros…</p><div class="scrolltools"><button id="prev">Anterior</button><span id="page" class="muted">1</span><button id="next">Próxima</button></div></div><p class="short">*No acordo = título listado para publicação em acordo do qual a UNEMAT participa. Não é autorização de pagamento. <a href="https://www.periodicos.capes.gov.br/" target="_blank" rel="noopener">Condições CAPES ↗</a></p><div class="tablebox"><table><thead><tr><th>Periódico / ISSN</th><th>Área <span class="hint" title="Área de acordo com a planilha original da editora. A classificação pode não coincidir com a área CAPES.">?</span></th><th>Editora</th><th>Acordo <span class="hint" title="Listagem da editora não garante aprovação automática da APC de seu artigo.">?</span></th><th>Impacto <span class="hint" title="Indicador fornecido pela editora quando disponível. Confirme ano e categoria no JCR antes de utilizá-lo.">?</span></th><th>Fonte</th></tr></thead><tbody id="results"></tbody></table></div></section>
@@ -163,7 +163,7 @@ const curated={
 
 const abstractStop=new Set("a o os as um uma de da do das dos e ou em no na nos nas com sem para por pelo pela entre sobre que se ao aos à às seu sua seus suas como foi foram ser tem têm este esta estes estas nosso nossa estudo pesquisa trabalho artigo resultados resultado objetivo objetivos método métodos analise análise dados efeito efeitos avaliar avaliação avaliou investigou investigamos através uso utilizado utilizando foi são e and the of in on with for from using used study studies results result methods method research aims aim objective objectives this that those these we our was were are is as at to by a an and or et al based between among regarding investigation investigated evaluate evaluation effects effect data analysis samples sample measured measure measurements new into different during under across all two three quatro cinco between including has have had can may will its their them it its also do does did such an so".split(/\s+/));
 // Termos de método, desenho e redação genérica: nunca entram na busca temática.
-const methodStop=new Set("regression regressao regressoes model models modelo modelos modeling modelagem anova ancova manova pca nmds permanova glm glmm gam gamm bayesian bayesiano bayesiana linear generalized generalizado generalizados mixed misto mistos akaike aic bic criterion criterio software statistical statistics estatistica estatistico estatisticos significant significativo significativa significance significancia correlation correlacao variance variancia test tests teste testes principal component components componente componentes multivariate multivariada kruskal wallis mann whitney pearson spearman tukey shapiro square fitted selection randomized randomizado placebo controlled blind double median mean average total percent percentage higher lower increased decreased reduced similar compared groups group months years year hours weeks week days followed assigned occurred mainly less more most fewer after before within above below than while however respectively findings showed show shows indicate indicates suggest suggests conducted performed determined collected ranging related relative major poorly understood report reported assess whether remains background conclusion conclusions initial improved explaining affects change driver cause yet used with from that this were was have has been being which their these those there here into over under also both each such only very well may can could should would characterization applications application properties investigate investigated approach novel different several various important".split(/\s+/));
+const methodStop=new Set("regression regressao regressoes model models modelo modelos modeling modelagem anova ancova manova pca nmds permanova glm glmm gam gamm bayesian bayesiano bayesiana linear generalized generalizado generalizados mixed misto mistos akaike aic bic criterion criterio software statistical statistics estatistica estatistico estatisticos significant significativo significativa significance significancia correlation correlacao variance variancia test tests teste testes principal component components componente componentes multivariate multivariada kruskal wallis mann whitney pearson spearman tukey shapiro square fitted selection randomized randomizado placebo controlled blind double median mean average total percent percentage higher lower increased decreased reduced similar compared groups group months years year hours weeks week days followed assigned occurred mainly less more most fewer after before within above below than while however respectively findings showed show shows indicate indicates suggest suggests conducted performed determined collected ranging related relative major poorly understood report reported assess whether remains background conclusion conclusions initial improved explaining affects change driver cause yet used with from that this were was have has been being which their these those there here into over under also both each such only very well may can could should would characterization applications application properties investigate investigated approach novel different several various important estudo estudos pesquisa pesquisas artigo trabalho objetivo objetivos resultado resultados dados analise analises analisa analisou avaliou avaliar investigou discute conclui sustenta partir meio durante foram realizadas realizados realizada sendo mostram indicam apresentaram houve relacao necessidade periodo periodos anos dois tres entre maiores menores demais grupos razao levantamento utilizados utilizadas aplicacao evolucao gradualmente".split(/\s+/));
 function abstractTokens(t){return N(t).replace(/[^a-z0-9]+/g," ").split(/\s+/).filter(w=>w.length>2&&!abstractStop.has(w))}
 const ptMarks=new Set("de da do das dos que em para com uma os as foi foram entre sobre nao por se ao na no nas nos pela pelo sao".split(" "));
 const enMarks=new Set("the of and in to was were with for that is are by this we from on at which".split(" "));
@@ -292,21 +292,32 @@ function safeUrl(u){return /^https:\/\//.test(String(u||""))?u:"https://www.peri
 let journalByName=new Map();
 let requestSerial=0;
 const openAlexCache=new Map(); // evita repetir a mesma consulta na sessão e gastar a cota gratuita
+async function openAlexWorks(params){
+ const key=new URLSearchParams(params).toString();
+ if(openAlexCache.has(key))return openAlexCache.get(key);
+ const ctrl=new AbortController(),timeout=setTimeout(()=>ctrl.abort(),14000);
+ try{
+  const response=await fetch("https://api.openalex.org/works?"+key,{signal:ctrl.signal,headers:{Accept:"application/json"}});
+  if(!response.ok)throw Error(response.status===429?"limite gratuito de consultas atingido, erro 429":"erro "+response.status);
+  const list=(await response.json()).results||[];
+  openAlexCache.set(key,list);return list;
+ }finally{clearTimeout(timeout)}
+}
 async function recommendFromAbstract(){
  const status=$("suggestionStatus"),target=$("suggestionResults"),button=$("suggestJournals");
  const content=$("abstractInput").value.trim();
  if(abstractTokens(content).length<25){status.textContent="Cole um resumo com informações suficientes sobre o objeto de estudo.";target.innerHTML="";return}
  if(!data.length){status.textContent="A base de periódicos ainda não carregou.";return}
  let terms=$("scientificTerms").value.trim();
- if(!terms){terms=termsFromAbstract(content);$("scientificTerms").value=terms}
- if(terms.split(/\s+/).filter(Boolean).length<2){
-  status.textContent="Não foi possível derivar termos em inglês suficientes deste resumo. Escreva de 2 a 5 termos em inglês sobre o objeto do estudo no campo abaixo e pesquise de novo.";
-  target.innerHTML="";$("scientificTerms").focus();return}
+ if(!terms){terms=termsFromAbstract(content);$("scientificTerms").value=terms.split(/\s+/).filter(Boolean).length<2?"":terms}
+ // Sem termos em inglês (resumo em português fora do dicionário): o OpenAlex identifica o tema pelos termos originais.
+ const byTopic=terms.split(/\s+/).filter(Boolean).length<2;
  const serial=++requestSerial;
  button.disabled=true;button.textContent="Analisando revistas…";
- status.textContent="Pesquisando artigos científicos e cruzando os periódicos com o catálogo CAPES…";
+ status.textContent=byTopic?"Identificando o tema do resumo no OpenAlex…":"Pesquisando artigos científicos e cruzando os periódicos com o catálogo CAPES…";
  target.innerHTML="";
- let query="";
+ let query="",topic=null,seed="";
+ const fields="id,title,publication_year,primary_location,doi,cited_by_count";
  try{
   const onlyCovered=$("abstractCoverage").value==="yes";
   const index=new Map();
@@ -317,24 +328,26 @@ async function recommendFromAbstract(){
    const key=N(j.titulo).replace(/[^a-z0-9]/g,"");
    if(key.length>12)journalByName.set(key,j);
   }
-  const raw=terms.replace(/[^\p{L}\p{N}\s-]/gu," ").trim().slice(0,180);
-  // Uma única consulta com os três primeiros termos, para poupar a cota gratuita do OpenAlex.
-  query=raw.split(/\s+/).filter(w=>!/^(Salminus|brasiliensis)$/i.test(w)).slice(0,3).join(" ");
-  if(query.split(/\s+/).length<2)query=raw.split(/\s+/).slice(0,3).join(" ");
-  let list=openAlexCache.get(query);
-  if(!list){
-   const url="https://api.openalex.org/works?"+new URLSearchParams({
-     search:query,filter:"type:article,from_publication_date:2017-01-01",
-     per_page:"100",select:"id,title,publication_year,primary_location,doi,cited_by_count"
-   });
-   const ctrl=new AbortController();
-   const timeout=setTimeout(()=>ctrl.abort(),14000);
-   try{
-    const response=await fetch(url,{signal:ctrl.signal,headers:{Accept:"application/json"}});
-    if(!response.ok)throw Error(response.status===429?"limite gratuito de consultas atingido, erro 429":"erro "+response.status);
-    list=(await response.json()).results||[];
-    openAlexCache.set(query,list);
-   }finally{clearTimeout(timeout)}
+  let list;
+  if(byTopic){
+   seed=keyTermsEnglish(content).slice(0,3).join(" ");
+   if(seed.split(" ").length<2){status.textContent="Não foi possível extrair termos deste resumo. Escreva de 2 a 5 termos em inglês sobre o objeto do estudo no campo abaixo e pesquise de novo.";$("scientificTerms").focus();return}
+   const probe=await openAlexWorks({search:seed,per_page:"50",select:"id,primary_topic"});
+   if(serial!==requestSerial)return;
+   const tally=new Map();
+   for(const w of probe){const t=w.primary_topic;if(!t||!/^https:\/\/openalex\.org\/T\d+$/.test(t.id||""))continue;const id=t.id.split("/").pop();if(!tally.has(id))tally.set(id,{id,name:t.display_name||id,n:0});tally.get(id).n++}
+   const best=[...tally.values()].sort((x,y)=>y.n-x.n)[0];
+   // O tema só é aceito quando concentra parte relevante dos artigos encontrados.
+   if(!best||best.n<Math.max(5,probe.length*0.2)){status.textContent="O OpenAlex não apontou um tema predominante para “"+seed+"”. Escreva de 2 a 5 termos em inglês sobre o objeto do estudo no campo abaixo e pesquise de novo.";$("scientificTerms").focus();return}
+   topic={...best,of:probe.length};query=topic.name;
+   status.textContent="Tema identificado: “"+topic.name+"”. Buscando os periódicos que mais publicam nesse tema…";
+   list=await openAlexWorks({filter:"primary_topic.id:"+topic.id+",type:article,from_publication_date:2017-01-01",per_page:"100",select:fields});
+  }else{
+   const raw=terms.replace(/[^\p{L}\p{N}\s-]/gu," ").trim().slice(0,180);
+   // Uma única consulta com os três primeiros termos, para poupar a cota gratuita do OpenAlex.
+   query=raw.split(/\s+/).filter(w=>!/^(Salminus|brasiliensis)$/i.test(w)).slice(0,3).join(" ");
+   if(query.split(/\s+/).length<2)query=raw.split(/\s+/).slice(0,3).join(" ");
+   list=await openAlexWorks({search:query,filter:"type:article,from_publication_date:2017-01-01",per_page:"100",select:fields});
   }
   if(serial!==requestSerial)return;
   const works=new Map();for(const work of list){if(work.id)works.set(work.id,work)}
@@ -351,9 +364,10 @@ async function recommendFromAbstract(){
     ...group,score:group.works.reduce((sum,w)=>sum+Math.min(w.cited_by_count||0,30)*0.01+1,0)
   })).sort((a,b)=>b.works.length-a.works.length||b.score-a.score).slice(0,10);
   if(!ranked.length){
-   renderScopeSuggestions(content,terms,"O OpenAlex respondeu, mas nenhum artigo recuperado para “"+query+"” saiu em periódico dos acordos cadastrados.");return
+   renderScopeSuggestions(content,topic?topic.name:terms,topic?"O OpenAlex identificou o tema “"+topic.name+"”, mas nenhum dos 100 artigos mais citados desse tema saiu em periódico dos acordos cadastrados. Áreas que publicam sobretudo em revistas nacionais costumam ficar fora desses acordos.":"O OpenAlex respondeu, mas nenhum artigo recuperado para “"+query+"” saiu em periódico dos acordos cadastrados.");return
   }
-  status.textContent=ranked.length+" periódicos identificados a partir de "+works.size+" artigos recuperados do OpenAlex para “"+query+"”. A ordem reflete a quantidade de artigos semelhantes já publicados em cada periódico. Não é probabilidade de aceite.";
+  status.textContent=topic?ranked.length+" periódicos identificados entre os "+works.size+" artigos mais citados do tema “"+topic.name+"”. O OpenAlex apontou esse tema em "+topic.n+" de "+topic.of+" artigos encontrados com “"+seed+"”. Confira se o tema corresponde ao seu resumo. A ordem reflete a quantidade de artigos do tema em cada periódico. Não é probabilidade de aceite."
+   :ranked.length+" periódicos identificados a partir de "+works.size+" artigos recuperados do OpenAlex para “"+query+"”. A ordem reflete a quantidade de artigos semelhantes já publicados em cada periódico. Não é probabilidade de aceite.";
   target.innerHTML=ranked.map(group=>{
     const j=group.journal;
     const link=w=>/^https:\/\//.test(w.doi||"")?w.doi:(/^https:\/\/openalex\.org\//.test(w.id||"")?w.id:"https://openalex.org/");
@@ -367,7 +381,9 @@ async function recommendFromAbstract(){
   }).join("");
  }catch(err){
   if(serial!==requestSerial)return;
-  renderScopeSuggestions(content,terms,"OpenAlex indisponível ("+(err.name==="AbortError"?"tempo excedido":err.name==="TypeError"?"falha de rede":err.message)+"); resultado gerado localmente.");
+  const why=err.name==="AbortError"?"tempo excedido":err.name==="TypeError"?"falha de rede":err.message;
+  if(byTopic&&!topic){status.textContent="OpenAlex indisponível ("+why+"). Sem ele não é possível identificar o tema de um resumo em português. Escreva de 2 a 5 termos em inglês no campo abaixo ou tente mais tarde.";target.innerHTML="";$("scientificTerms").focus();return}
+  renderScopeSuggestions(content,topic?topic.name:terms,"OpenAlex indisponível ("+(err.name==="AbortError"?"tempo excedido":err.name==="TypeError"?"falha de rede":err.message)+"); resultado gerado localmente.");
  }finally{if(serial===requestSerial){button.disabled=false;button.textContent="Pesquisar artigos semelhantes"}}
 }
 $("abstractInput").addEventListener("input",()=>{$("scientificTerms").value=""});
