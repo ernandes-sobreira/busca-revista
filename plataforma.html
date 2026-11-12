@@ -76,8 +76,8 @@
 <textarea id="abstractInput" rows="8" placeholder="Objetivo, métodos e resultados do estudo..." style="width:100%;min-height:160px;resize:vertical;border:1px solid #d5dfe7;border-radius:10px;padding:14px;font:inherit;font-size:14px"></textarea>
 <div class="filter"><select id="abstractCoverage"><option value="yes">Somente títulos com acordo de publicação CAPES–UNEMAT</option><option value="all">Todos os títulos cadastrados (inclusive só leitura)</option></select><button class="primary" id="suggestJournals">Pesquisar artigos semelhantes</button><button id="clearAbstract">Limpar</button></div>
 <p class="short">Gratuito · O resumo permanece no navegador. Somente termos de busca derivados dele são enviados à API científica OpenAlex.</p></div>
-<div class="panel" style="margin-top:12px"><label for="scientificTerms" class="muted">Termos científicos para buscar artigos <span class="hint" title="Edite os termos em inglês para refinar a busca. Evite citar métodos estatísticos genéricos.">?</span></label><input type="search" id="scientificTerms" style="width:100%;margin-top:7px" placeholder="Ex.: mercury bioaccumulation freshwater fish"></div><div id="suggestionStatus" class="muted" role="status" aria-live="polite" style="margin:12px 0"></div><div id="suggestionResults" class="grid"></div>
-<details><summary>Como funciona a recomendação?</summary><p>A ferramenta consulta artigos científicos reais no OpenAlex por termos temáticos, verifica os periódicos que publicaram esses artigos e os cruza por ISSN com as listas CAPES–UNEMAT. Exibe trabalhos semelhantes como evidência. Não prevê aceite ou qualidade e não utiliza IA generativa. Os termos de busca, não o resumo integral, são enviados ao serviço externo.</p></details>
+<div class="panel" style="margin-top:12px"><label for="scientificTerms" class="muted">Termos científicos em inglês (gerados do resumo; revise antes de pesquisar) <span class="hint" title="Use de 2 a 5 termos em inglês sobre o objeto do estudo. A consulta usa os três primeiros. Métodos estatísticos são ignorados. Resumos em português só geram termos para os temas do dicionário interno; nos demais casos, digite os termos.">?</span></label><input type="search" id="scientificTerms" style="width:100%;margin-top:7px" placeholder="Ex.: mercury bioaccumulation freshwater fish"></div><div id="suggestionStatus" class="muted" role="status" aria-live="polite" style="margin:12px 0"></div><div id="suggestionResults" class="grid"></div>
+<details><summary>Como funciona a recomendação?</summary><p>A ferramenta consulta artigos científicos reais no OpenAlex por termos temáticos, verifica os periódicos que publicaram esses artigos e os cruza por ISSN com as listas CAPES–UNEMAT. Exibe trabalhos semelhantes como evidência. Não prevê aceite ou qualidade e não utiliza IA generativa. Os termos de busca, não o resumo integral, são enviados ao serviço externo. Se o OpenAlex recusar a consulta (erro 429, cota gratuita esgotada) ou estiver fora do ar, a página compara os termos com o título e a área dos periódicos cadastrados e avisa que nenhum artigo foi verificado.</p></details>
 </section>
 <section class="view" id="buscar"><div class="topline"><h2>Catálogo de periódicos <span class="hint" title="Registros reais importados de arquivos oficiais. A inclusão na lista de uma editora não assegura APC automaticamente aprovada.">?</span></h2><button id="download">Exportar CSV</button></div><div class="note"><b>Base disponível:</b> periódicos dos acordos Springer, Royal Society, Wiley, Elsevier e ACM com a CAPES, conforme os catálogos efetivamente carregados. † Indicador da planilha Wiley: conferir ano/categoria no JCR. A UNEMAT participa desses acordos, mas a aprovação da APC exige confirmação do artigo e do autor correspondente. Na Elsevier, os títulos “somente leitura” não são contemplados para APC. <a href="https://www.springernature.com/br/open-science/oa-agreements/brazil/capes" target="_blank" rel="noopener">Conferir regras ↗</a><br><span class="muted">Springer, Royal Society e Wiley estão integradas. Elsevier: 1.693 títulos importados (1.619 para publicação; 74 apenas leitura). ACM: 73 títulos importados. ACS: catálogo nominal ainda pendente. A UNEMAT foi confirmada nos acordos Springer, Wiley, Elsevier, ACS, ACM e Royal Society. A IEEE não relaciona UNEMAT em sua lista publicada. Consulte-os na aba Acordos CAPES; o filtro não mostra títulos não cadastrados.</span></div><details><summary>Consultar todos os acordos — editoras ainda não importadas</summary><div class="actions"><a href="https://www.elsevier.com/pt-br/open-access/agreements/brazil" target="_blank" rel="noopener">Elsevier · 1.619 para publicação ↗</a><a href="https://www.wiley.com/en-br/publishing/article/open-access/oa-agreement" target="_blank" rel="noopener">Wiley · UNEMAT participante · 1.296 títulos ↗</a><a href="https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/contratos-capes/04122025_SEI_2729393_Contrato_56.pdf/@@download/file" target="_blank" rel="noopener">ACM · 73 títulos ↗</a><a href="https://open.ieee.org/partners/capes-transformative-agreement/" target="_blank" rel="noopener">IEEE · UNEMAT não localizada ↗</a><a href="https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/contratos-capes/05062026_Contrato25_2024ACS.pdf" target="_blank" rel="noopener">ACS · lista no site oficial ↗</a><a href="https://royalsociety.org/journals/capes/" target="_blank" rel="noopener">Royal Society · UNEMAT confirmada ↗</a></div><p class="muted">Os links abrem os mecanismos oficiais de cada acordo. Os títulos que não estiverem importados não aparecem na filtragem local.</p></details><div class="filter"><input type="search" id="term" placeholder="Pesquisar nome, ISSN ou área em português…"><select id="area"><option value="">Todas as áreas</option></select><select id="publisher"><option value="">Todas as editoras</option></select><select id="coverage" aria-label="Filtrar cobertura CAPES UNEMAT"><option value="all">Todas as revistas cadastradas</option><option value="confirmed">Contempladas cadastradas</option><option value="pending">Cobertura a confirmar</option></select></div><div class="catalog-head"><p class="short" id="count">Carregando registros…</p><div class="scrolltools"><button id="prev">Anterior</button><span id="page" class="muted">1</span><button id="next">Próxima</button></div></div><p class="short">*Contemplado = título presente no acordo Springer + UNEMAT participante. Não é autorização automática de pagamento. <a href="https://www.periodicos.capes.gov.br/" target="_blank" rel="noopener">Condições CAPES ↗</a></p><div class="tablebox"><table><thead><tr><th>Periódico / ISSN</th><th>Área <span class="hint" title="Área de acordo com a planilha original da editora. A classificação pode não coincidir com a área CAPES.">?</span></th><th>Editora</th><th>Acordo <span class="hint" title="Listagem da editora não garante aprovação automática da APC de seu artigo.">?</span></th><th>Impacto <span class="hint" title="Indicador fornecido pela editora quando disponível. Confirme ano e categoria no JCR antes de utilizá-lo.">?</span></th><th>Fonte</th></tr></thead><tbody id="results"></tbody></table></div></section>
 <section class="view" id="acordos"><div class="topline"><h2>Acordos de publicação CAPES</h2><span class="hint" title="São sete editoras com acordos vigentes divulgados pela CAPES em novembro de 2026; as listas e instituições variam por contrato.">?</span></div><section class="apc-flow" aria-label="Fluxograma do pagamento CAPES">
@@ -157,47 +157,24 @@ const curated={
 };
 
 const abstractStop=new Set("a o os as um uma de da do das dos e ou em no na nos nas com sem para por pelo pela entre sobre que se ao aos à às seu sua seus suas como foi foram ser tem têm este esta estes estas nosso nossa estudo pesquisa trabalho artigo resultados resultado objetivo objetivos método métodos analise análise dados efeito efeitos avaliar avaliação avaliou investigou investigamos através uso utilizado utilizando foi são e and the of in on with for from using used study studies results result methods method research aims aim objective objectives this that those these we our was were are is as at to by a an and or et al based between among regarding investigation investigated evaluate evaluation effects effect data analysis samples sample measured measure measurements new into different during under across all two three quatro cinco between including has have had can may will its their them it its also do does did such an so".split(/\s+/));
-const abstractTopics={
-"ambiente":["ambiental","ambiente","environment","environmental","ecologia","ecology","ecological","ecossistema","ecosystem","biodiversidade","biodiversity","conservation","conservacao","pantanal","cerrado","amazonia","amazon","natureza","nature","habitat","fauna","flora","pollution","poluicao","contaminacao","contamination"],
-"agua":["agua","water","rio","river","lago","lake","limnologia","limnology","hidrologia","hydrology","hydrological","sediment","sedimento","wetland","aquatic","aquatico","aquatica","stream","freshwater","watershed","watersheds","bacia","dissolved","reservoir","reservatorio"],
-"clima":["clima","climate","climatic","mudancas","change","warming","aquecimento","temperatura","temperature","greenhouse","carbon","carbono","co2","methane","metano","flux","fluxo","emissions","emissao","emissoes","greenhouse","rainfall","precipitacao","seca","drought"],
-"saude":["saude","health","medicine","medical","disease","doenca","doencas","epidemiologia","epidemiology","hospital","nursing","enfermagem","publichealth","clinic","clinical","patient","paciente","patients","infection","infeccao","mental","cardiovascular","respiratory","respiratorio"],
-"agricultura":["agricultura","agronomia","agriculture","agricultural","agro","crop","crops","soja","soybean","pasto","pasture","pecuaria","livestock","cattle","bovinos","solo","soil","fertility","fertilidade","fertilizer","irrigation","irrigacao","aquaculture","food","alimentos"],
-"educacao":["educacao","education","school","escola","ensino","teaching","learning","aprendizagem","students","estudantes","docentes","professores","teacher","curriculum","curriculo","pedagogy","pedagogia"],
-"computacao":["computacao","computer","computing","software","algorithm","algoritmo","algorithms","inteligencia","artificial","machine","learning","neural","programacao","programming","network","rede","simulation","simulacao","modelagem","modeling"],
-"estatistica":["estatistica","statistics","statistical","regression","regressao","variance","variancia","probabilidade","probability","pca","multivariate","multivariada","bayesian","bayesiano","sampling","amostragem"],
-"quimica":["quimica","chemical","chemistry","molecule","molecular","reaction","reacao","catalysis","catalise","compound","composto","spectrometry","espectrometria","polymer","polimero","nanomaterial"],
-"fisica":["fisica","physics","physical","quantum","quantica","optics","optica","thermodynamics","termodinamica","energy","energia","astronomy","astronomia"],
-"engenharia":["engenharia","engineering","construction","construcao","materials","materiais","structure","estrutura","mechanical","mecanica","electrical","eletrica","civil","transport","transporte"],
-"biologia":["biologia","biology","biological","species","especies","especie","genetics","genetica","genomic","genomica","cells","celulas","organism","organismo","microbiology","microbiologia","bacteria","bacteria","plant","plants","plantas","animal","animals","fungi","fungos","microplastic","microplastics","microplasticos","fitoplancton","phytoplankton"],
-"sociais":["social","sociais","society","sociedade","sociologia","sociology","policy","politica","politicas","politics","public","publica","community","comunidade","cultural","cultura","cultural","indigenous","indigenas","desigualdade","inequality"],
-"economia":["economia","economics","economic","economico","finance","financas","financial","market","mercado","management","gestao","business","administracao","accounting","contabilidade","investment"],
-"direito":["direito","law","legal","juridico","judicial","regulation","regulacao","legislation","legislacao","rights","direitos","justice","justica"],
-"geografia":["geografia","geography","geographic","spatial","espacial","territorio","territorial","landscape","paisagem","gis","geoprocessamento","remote","sensing","sensoriamento","map","mapa","maps","mapping","cartografia"],
-"psicologia":["psicologia","psychology","psychological","behavior","behaviour","comportamento","cognition","cognitivo","mental","emotion","emocao"],
-"veterinaria":["veterinaria","veterinary","animal","animals","livestock","cattle","boi","bovino","zootecnia","zootechnics"],
-"humanidades":["humanidades","humanities","literatura","literature","history","historia","filosofia","philosophy","language","linguagem","linguistica","linguistics","art","arte"]
-};
+// Termos de método, desenho e redação genérica: nunca entram na busca temática.
+const methodStop=new Set("regression regressao regressoes model models modelo modelos modeling modelagem anova ancova manova pca nmds permanova glm glmm gam gamm bayesian bayesiano bayesiana linear generalized generalizado generalizados mixed misto mistos akaike aic bic criterion criterio software statistical statistics estatistica estatistico estatisticos significant significativo significativa significance significancia correlation correlacao variance variancia test tests teste testes principal component components componente componentes multivariate multivariada kruskal wallis mann whitney pearson spearman tukey shapiro square fitted selection randomized randomizado placebo controlled blind double median mean average total percent percentage higher lower increased decreased reduced similar compared groups group months years year hours weeks week days followed assigned occurred mainly less more most fewer after before within above below than while however respectively findings showed show shows indicate indicates suggest suggests conducted performed determined collected ranging related relative major poorly understood report reported assess whether remains background conclusion conclusions initial improved explaining affects change driver cause yet used with from that this were was have has been being which their these those there here into over under also both each such only very well may can could should would characterization applications application properties investigate investigated approach novel different several various important".split(/\s+/));
 function abstractTokens(t){return N(t).replace(/[^a-z0-9]+/g," ").split(/\s+/).filter(w=>w.length>2&&!abstractStop.has(w))}
-function abstractMatch(text,journal){
- const words=abstractTokens(text);if(words.length<15)return null;
- const frequencies={};for(const w of words)frequencies[w]=(frequencies[w]||0)+1;
- const title=N(journal.titulo||""),area=N(areaName(journal.area)),sub=N(journal.subarea||"");
- let score=0;const evidence=[];
- for(const [category,terms] of Object.entries(abstractTopics)){
-  let hits=0;for(const t of terms){if(frequencies[t])hits+=Math.min(frequencies[t],2)}
-  if(!hits)continue;
-  const categoryIn=N(category),matching=terms.some(t=>area.includes(t)||sub.includes(t))||area.includes(categoryIn)||sub.includes(categoryIn);
-  if(matching){score+=Math.min(hits,7)*3;evidence.push(category)}
- }
- const titleTokens=[...new Set(abstractTokens(title))];let titleHits=0;
- for(const w of titleTokens){if(frequencies[w]){score+=5;titleHits++;if(evidence.length<4)evidence.push(w)}}
- let areaHits=0;for(const w of new Set(abstractTokens(area+" "+sub))){if(frequencies[w]){score+=2;areaHits++}}
- // Require specific correspondence; generic broad area alignment alone is weak.
- if(score<10||(titleHits===0&&areaHits<2))return null;
- return {score,evidence:[...new Set(evidence)].slice(0,4)};
+const ptMarks=new Set("de da do das dos que em para com uma os as foi foram entre sobre nao por se ao na no nas nos pela pelo sao".split(" "));
+const enMarks=new Set("the of and in to was were with for that is are by this we from on at which".split(" "));
+function abstractLanguage(t){let pt=0,en=0;for(const w of N(t).split(/[^a-z]+/)){if(ptMarks.has(w))pt++;if(enMarks.has(w))en++}return pt>en?"pt":"en"}
+// Resumo em inglês: termos mais frequentes do objeto de estudo, com reforço para a primeira frase.
+function keyTermsEnglish(text){
+ const firstEnd=(()=>{const m=text.search(/[.!?](\s|$)/);return m<0?text.length:m})();
+ const clean=w=>w.replace(/^-+|-+$/g,"");
+ const usable=w=>w.length>3&&!/^\d/.test(w)&&!abstractStop.has(w)&&!methodStop.has(w);
+ const tok=t=>N(t).replace(/[^a-z0-9-]+/g," ").split(/\s+/).map(clean).filter(usable);
+ const key=w=>w.length>4&&w.endsWith("s")&&!w.endsWith("ss")?w.slice(0,-1):w;
+ const first=new Set(tok(text.slice(0,firstEnd)).map(key)),info=new Map();
+ tok(text).forEach((w,i)=>{const k=key(w);if(!info.has(k))info.set(k,{word:w,n:0,pos:i});info.get(k).n++});
+ return [...info.entries()].map(([k,v])=>({...v,score:v.n*2+(first.has(k)?2:0)+(k.length>=10?1:0)}))
+  .sort((x,y)=>y.score-x.score||x.pos-y.pos).slice(0,4).sort((x,y)=>x.pos-y.pos).map(x=>x.word);
 }
-
 const scientificPairs=[
  [["mercurio","mercury","hg","metilmercurio","methylmercury"],"mercury"],
  [["bioacumulacao","bioaccumulation","biomagnificacao","biomagnification"],"bioaccumulation"],
@@ -218,10 +195,12 @@ const scientificPairs=[
  [["geoprocessamento","sensoriamento remoto","remote sensing","gis"],"remote sensing"]
 ];
 function termsFromAbstract(abstract){
- const normalized=N(abstract);
  let selected=[];
- for(const [triggers,english] of scientificPairs){if(triggers.some(t=>normalized.includes(N(t))))selected.push(english)}
- // Statistical tests are intentionally ignored: the research object drives journal search.
+ if(abstractLanguage(abstract)==="pt"){
+  // Correspondência por palavra inteira: "rio" não casa com "período" nem "laboratório".
+  const padded=" "+N(abstract).replace(/[^a-z0-9]+/g," ")+" ";
+  for(const [triggers,english] of scientificPairs){if(triggers.some(t=>padded.includes(" "+N(t)+" ")))selected.push(english)}
+ }else selected=keyTermsEnglish(abstract);
  const genus=abstract.match(/\b([A-Z][a-z]{3,})\s+([a-z]{4,})\b/g)||[];
  const taxa=genus.filter(t=>/\b(Salminus|Piaractus|Prochilodus|Caiman|Panthera|Rhinella)\b/.test(t)).slice(0,1);
  if(taxa.length)selected.unshift(taxa[0]);
@@ -237,65 +216,77 @@ function findCatalogueSource(work,index){
  return title.length>12?journalByName.get(title)||null:null;
 }
 
-// Fallback editorial: correspondência por ESCOPO científico, nunca por método estatístico.
-// Nenhuma seleção é apresentada como evidência de artigos publicados ou chance de aceite.
+// Modo local (sem OpenAlex): correspondência entre os TERMOS de busca e o título ou a área do periódico.
+// Os grupos são ativados somente pelos termos científicos, nunca por trechos soltos do resumo nem por método.
 const journalScopeGroups={
- mercury:{test:/mercur|merc[uú]rio|metilmercur|methylmercur|\bhg\b/i,words:/ecotox|toxicolog|contamin|pollut|environmental|aquatic toxic|water air.*soil|environmental quality|fish biology|biology of fishes/i},
- fish:{test:/\bpeix|fish|fishes|salminus|dourado|ictio|aquatic organism|piscic/i,words:/fish|fisher|aquatic|hydrobiolog|freshwater|ecotox|environmental biology|environmental contamin/i},
- freshwater:{test:/rio\b|rios\b|river|freshwater|aquatic|[aá]gua|water|pantanal|cuiab[aá]|paraguai/i,words:/aquatic|freshwater|hydrobiolog|water|environment|fish|ecotox|contamin/i},
- environmental:{test:/meio ambiente|ambiental|environment|pollut|contamin|ecolog|ecossist|ecosystem|ecotoxic|sediment/i,words:/environment|pollut|contamin|ecolog|ecotox|aquatic|hydrobiolog|quality/i},
- clinical:{test:/patient|paciente|hospital|clinic|clinical|sa[uú]de|health|epidemiol/i,words:/health|medicine|clinical|epidemiolog|public health|nursing/i},
- agriculture:{test:/agronom|agricultur|crop|cultiv|plantio|solo|soil|safra/i,words:/agricultur|crop|soil|plant|food|farm|agronom/i},
- education:{test:/educa[cç]|ensino|teaching|learning|escola|students|alunos/i,words:/educat|teaching|learning|pedagog|school|curricul/i},
- software:{test:/software|computer|algoritm|artificial intelligence|intelig[eê]ncia artificial|comput[aã]/i,words:/comput|software|information systems|artificial intelligence|machine learning/i},
- statistics:{test:/estudo de estat[ií]stica|statistical methodology|teoria estat[ií]stica|statistics research/i,words:/statistics|statistical|probability|mathematical/i},
- ecology:{test:/biodivers|biolog|ecolog|popula[cç][aã]o de esp[eé]cies|species diversity|conserva[cç]/i,words:/ecolog|biodivers|conservation|biology|natural history/i}
+ mercury:{test:/\b(mercury|methylmercury)\b/,words:/ecotox|toxicolog|contamin|pollut|environmental|aquatic toxic|water air.*soil|environmental quality|fish biology|biology of fishes/i},
+ fish:{test:/\b(fish|fishes|salminus|piaractus|prochilodus)\b/,words:/fish|fisher|aquatic|hydrobiolog|freshwater|ecotox|environmental biology|environmental contamin/i},
+ freshwater:{test:/\b(freshwater|river|rivers|aquatic|wetland|wetlands|limnology|water quality)\b/,words:/aquatic|freshwater|hydrobiolog|water|limnolog|fish|ecotox|contamin/i},
+ environmental:{test:/\b(environmental|pollution|contamination|ecotoxicology|sediment|sediments)\b/,words:/environment|pollut|contamin|ecotox|aquatic|hydrobiolog|quality/i},
+ clinical:{test:/\b(patient|patients|clinical|hospital|epidemiology|public health)\b/,words:/health|medicine|clinical|epidemiolog|public health|nursing/i},
+ agriculture:{test:/\b(agriculture|agricultural|agronomy|crop|crops|soil|soils)\b/,words:/agricultur|crop|soil|plant|food|farm|agronom/i},
+ education:{test:/\b(education|teaching|school|schools|teacher|teachers|students|pedagogy|curriculum)\b/,words:/educat|teaching|pedagog|school|curricul/i},
+ software:{test:/\b(computer science|software engineering|algorithm|algorithms|machine learning|artificial intelligence)\b/,words:/comput|software|information systems|artificial intelligence|machine learning/i},
+ ecology:{test:/\b(biodiversity|ecology|ecological|conservation|species)\b/,words:/ecolog|biodivers|conservation|natural history/i}
 };
+const scopeLabels={mercury:"contaminação e toxicologia",fish:"peixes",freshwater:"ecossistemas aquáticos",environmental:"ciências ambientais",clinical:"saúde",agriculture:"agricultura e solos",education:"educação",software:"computação",ecology:"ecologia e conservação"};
 const journalScopeBoost=[
  [/^(Aquatic Toxicology|Ecotoxicology|Environmental Toxicology|Archives of Environmental Contamination and Toxicology|Bulletin of Environmental Contamination and Toxicology)$/i,7,["mercury","fish","freshwater"]],
  [/^(Environmental Biology of Fishes|Journal of Fish Biology|Ecology of Freshwater Fish|Hydrobiologia|Aquatic Sciences)$/i,5,["fish","freshwater"]],
  [/^(Environmental Pollution|Environmental Science and Pollution Research|Environmental Monitoring and Assessment|Journal of Environmental Quality|Water, Air, & Soil Pollution)$/i,4,["mercury","environmental","freshwater"]],
  [/^(Environmental Research|Science of the Total Environment|Chemosphere)$/i,3,["mercury","environmental"]]
 ];
+const titleGeneric=new Set("journal journals international research science sciences studies study review reviews advances applied annals letters reports bulletin archives transactions proceedings current european american british asian world global general".split(" "));
+function termMatches(q,t){const s=w=>w.length>4&&w.endsWith("s")&&!w.endsWith("ss")?w.slice(0,-1):w;q=s(q);t=s(t);if(q===t)return true;let i=0;while(i<q.length&&i<t.length&&q[i]===t[i])i++;return i>=Math.max(6,Math.min(q.length,t.length)-2)}
 function scopeSuggestions(abstract,terms,onlyCovered){
- const txt=N(abstract+" "+terms);
- const active=Object.entries(journalScopeGroups).filter(([,spec])=>spec.test.test(txt)).map(([k])=>k);
- const subjectSpecific=active.filter(k=>k!=="statistics");
- if(!subjectSpecific.length)return [];
+ const termText=N(terms).replace(/[^a-z0-9]+/g," ").trim();
+ const termTokens=[...new Set(termText.split(/\s+/).filter(w=>w.length>3&&!titleGeneric.has(w)&&!methodStop.has(w)))];
+ if(!termTokens.length)return [];
+ const active=Object.entries(journalScopeGroups).filter(([,spec])=>spec.test.test(termText)).map(([k])=>k);
  const out=[];
  for(const j of data){
   if(onlyCovered&&j.cobertura_apc==="nao_coberto")continue;
   const title=N(j.titulo||""),meta=N([j.area||"",j.subarea||""].join(" "));
-  let score=0,matched=[];
-  for(const key of subjectSpecific){
+  const titleTokens=title.replace(/[^a-z0-9]+/g," ").split(/\s+/),metaTokens=meta.replace(/[^a-z0-9]+/g," ").split(/\s+/);
+  let score=0;const groups=[],words=[];
+  for(const q of termTokens){
+   if(titleTokens.some(t=>termMatches(q,t))){score+=3;words.push(q)}
+   else if(metaTokens.some(t=>termMatches(q,t)))score+=1;
+  }
+  for(const key of active){
    const cfg=journalScopeGroups[key];
-   if(cfg.words.test(title)){score+=3;matched.push(key)}
-   else if(cfg.words.test(meta)){score+=0.4}
+   if(cfg.words.test(title)){score+=3;groups.push(key)}
+   else if(cfg.words.test(meta))score+=0.4;
   }
-  for(const [re,points,groups] of journalScopeBoost){
-   if(re.test(j.titulo||"") && groups.some(group=>subjectSpecific.includes(group)))score+=points;
+  for(const [re,points,keys] of journalScopeBoost){
+   if(re.test(j.titulo||"") && keys.some(k=>active.includes(k)))score+=points;
   }
-  // Journals outside the central topic must not appear solely from broad subject headings.
-  const textEvidence=matched.length;
-  if(score>=4.5 && textEvidence>=1)out.push({j,score,matched});
+  // Exige evidência no título; área ampla sozinha não basta.
+  if(score>=3 && (words.length||groups.length))out.push({j,score,groups,words});
  }
- return out.sort((a,b)=>b.score-a.score||a.j.titulo.localeCompare(b.j.titulo)).slice(0,10);
+ // Havendo ao menos cinco periódicos com duas ou mais evidências, descarta os de evidência única.
+ const strong=out.filter(o=>o.words.length+o.groups.length>=2);
+ return (strong.length>=5?strong:out).sort((a,b)=>b.score-a.score||a.j.titulo.localeCompare(b.j.titulo)).slice(0,10);
 }
 function renderScopeSuggestions(abstract,terms,reason){
  const status=$("suggestionStatus"),target=$("suggestionResults");
  const matches=scopeSuggestions(abstract,terms,$("abstractCoverage").value==="yes");
  if(!matches.length){
-  status.textContent="A consulta científica está indisponível e não foi possível sugerir revistas tematicamente confiáveis com a base cadastrada.";
+  status.textContent=reason+" Nenhum periódico da base tem título ou área compatível com os termos informados. Revise os termos em inglês ou tente mais tarde.";
   target.innerHTML="";return;
  }
- status.textContent=matches.length+" sugestões preliminares por escopo editorial. "+reason+" Não foram verificadas publicações semelhantes nesta modalidade.";
- target.innerHTML=matches.map(({j,matched})=>{
-  const evidence=[...new Set(matched.map(k=>({mercury:"contaminação e toxicologia",fish:"peixes",freshwater:"ecossistemas aquáticos",environmental:"ciências ambientais",clinical:"saúde",agriculture:"agricultura",education:"educação",software:"computação",statistics:"estatística",ecology:"ecologia"})[k]))].join(", ");
-  return '<article class="panel"><div class="topline"><h3>'+E(j.titulo)+'</h3><span class="tag">'+E(j.editora)+'</span></div><p class="muted">'+E(areaName(j.area))+'</p><p class="muted">Afinidade temática estimada: '+E(evidence)+'. <strong>Conferir escopo e artigos recentes antes de submeter.</strong></p><span class="tag '+(j.cobertura_apc==="nao_coberto"?"yellow":"green")+'">'+(j.cobertura_apc==="nao_coberto"?"Apenas leitura":"Título no acordo CAPES*")+'</span><div class="actions"><a href="'+E(j.url||j.fonte)+'" target="_blank" rel="noopener">Ver periódico ↗</a><a href="'+E(j.fonte)+'" target="_blank" rel="noopener">Condições CAPES ↗</a></div></article>';
+ status.textContent=matches.length+" sugestões preliminares por título e área do periódico. "+reason+" Não foram verificados artigos publicados e a ordem não indica chance de aceite.";
+ target.innerHTML=matches.map(({j,groups,words})=>{
+  const why=[];
+  if(words.length)why.push("termos no título: "+words.join(", "));
+  if(groups.length)why.push("escopo: "+[...new Set(groups.map(k=>scopeLabels[k]))].join(", "));
+  return '<article class="panel"><div class="topline"><h3>'+E(j.titulo)+'</h3><span class="tag">'+E(j.editora)+'</span></div><p class="muted">'+E(areaName(j.area))+'</p><p class="muted">Motivo da sugestão: '+E(why.join("; "))+'. <strong>Conferir escopo e artigos recentes antes de submeter.</strong></p><span class="tag '+(j.cobertura_apc==="nao_coberto"?"yellow":"green")+'">'+(j.cobertura_apc==="nao_coberto"?"Apenas leitura":"Título no acordo CAPES*")+'</span><div class="actions"><a href="'+E(safeUrl(j.url||j.fonte))+'" target="_blank" rel="noopener">Ver periódico ↗</a><a href="'+E(safeUrl(j.fonte))+'" target="_blank" rel="noopener">Condições CAPES ↗</a></div></article>';
  }).join("");
 }
+function safeUrl(u){return /^https:\/\//.test(String(u||""))?u:"https://www.periodicos.capes.gov.br/"}
 let journalByName=new Map();
 let requestSerial=0;
+const openAlexCache=new Map(); // evita repetir a mesma consulta na sessão e gastar a cota gratuita
 async function recommendFromAbstract(){
  const status=$("suggestionStatus"),target=$("suggestionResults"),button=$("suggestJournals");
  const content=$("abstractInput").value.trim();
@@ -303,14 +294,16 @@ async function recommendFromAbstract(){
  if(!data.length){status.textContent="A base de periódicos ainda não carregou.";return}
  let terms=$("scientificTerms").value.trim();
  if(!terms){terms=termsFromAbstract(content);$("scientificTerms").value=terms}
- if(terms.split(/\s+/).length<2){status.textContent="Informe dois ou mais termos temáticos no campo de busca científica.";return}
+ if(terms.split(/\s+/).filter(Boolean).length<2){
+  status.textContent="Não foi possível derivar termos em inglês suficientes deste resumo. Escreva de 2 a 5 termos em inglês sobre o objeto do estudo no campo abaixo e pesquise de novo.";
+  target.innerHTML="";$("scientificTerms").focus();return}
  const serial=++requestSerial;
  button.disabled=true;button.textContent="Analisando revistas…";
  status.textContent="Pesquisando artigos científicos e cruzando os periódicos com o catálogo CAPES…";
  target.innerHTML="";
+ let query="";
  try{
   const onlyCovered=$("abstractCoverage").value==="yes";
-  renderScopeSuggestions(content,terms,"Buscando confirmação em artigos científicos…");
   const index=new Map();
   journalByName=new Map();
   for(const j of data){
@@ -320,12 +313,11 @@ async function recommendFromAbstract(){
    if(key.length>12)journalByName.set(key,j);
   }
   const raw=terms.replace(/[^\p{L}\p{N}\s-]/gu," ").trim().slice(0,180);
-  const query1=raw;
-  const words=raw.split(/\s+/);
-  const query2=words.length>4?words.slice(0,4).join(" "):raw;
-  const broadTerms=terms.split(/\s+/).filter(w=>!/^(Salminus|brasiliensis)$/i.test(w)).slice(0,3).join(" ");
-  const queries=[...new Set([broadTerms||query2])].filter(q=>q.split(/\s+/).length>=2);
-  const results=await Promise.all(queries.map(async query=>{
+  // Uma única consulta com os três primeiros termos, para poupar a cota gratuita do OpenAlex.
+  query=raw.split(/\s+/).filter(w=>!/^(Salminus|brasiliensis)$/i.test(w)).slice(0,3).join(" ");
+  if(query.split(/\s+/).length<2)query=raw.split(/\s+/).slice(0,3).join(" ");
+  let list=openAlexCache.get(query);
+  if(!list){
    const url="https://api.openalex.org/works?"+new URLSearchParams({
      search:query,filter:"type:article,from_publication_date:2017-01-01",
      per_page:"100",select:"id,title,publication_year,primary_location,doi,cited_by_count"
@@ -334,13 +326,13 @@ async function recommendFromAbstract(){
    const timeout=setTimeout(()=>ctrl.abort(),14000);
    try{
     const response=await fetch(url,{signal:ctrl.signal,headers:{Accept:"application/json"}});
-    if(!response.ok)throw Error("OpenAlex retornou "+response.status);
-    const payload=await response.json();
-    return payload.results||[];
+    if(!response.ok)throw Error(response.status===429?"limite gratuito de consultas atingido, erro 429":"erro "+response.status);
+    list=(await response.json()).results||[];
+    openAlexCache.set(query,list);
    }finally{clearTimeout(timeout)}
-  }));
+  }
   if(serial!==requestSerial)return;
-  const works=new Map();for(const list of results){for(const work of list){if(work.id)works.set(work.id,work)}}
+  const works=new Map();for(const work of list){if(work.id)works.set(work.id,work)}
   const groups=new Map();
   for(const work of works.values()){
    const j=findCatalogueSource(work,index);if(!j)continue;
@@ -348,34 +340,34 @@ async function recommendFromAbstract(){
    if(!title || !work.primary_location?.source)continue;
    const key=j.editora+"|"+safeIssn(j.issn||j.eissn||j.titulo);
    if(!groups.has(key))groups.set(key,{journal:j,works:[]});
-   const group=groups.get(key);
-   group.works.push(work);
+   groups.get(key).works.push(work);
   }
   const ranked=[...groups.values()].map(group=>({
     ...group,score:group.works.reduce((sum,w)=>sum+Math.min(w.cited_by_count||0,30)*0.01+1,0)
-  })).filter(g=>g.works.length>=1).sort((a,b)=>b.works.length-a.works.length||b.score-a.score).slice(0,10);
+  })).sort((a,b)=>b.works.length-a.works.length||b.score-a.score).slice(0,10);
   if(!ranked.length){
-   renderScopeSuggestions(content,terms,"A busca de artigos não encontrou periódicos correspondentes dentro dos acordos cadastrados.");return
+   renderScopeSuggestions(content,terms,"O OpenAlex respondeu, mas nenhum artigo recuperado para “"+query+"” saiu em periódico dos acordos cadastrados.");return
   }
-  const total=works.size;
-  status.textContent=ranked.length+" periódicos identificados a partir de "+total+" artigos recuperados do OpenAlex. A ordem considera frequência de artigos semelhantes, não probabilidade de aceite.";
+  status.textContent=ranked.length+" periódicos identificados a partir de "+works.size+" artigos recuperados do OpenAlex para “"+query+"”. A ordem reflete a quantidade de artigos semelhantes já publicados em cada periódico. Não é probabilidade de aceite.";
   target.innerHTML=ranked.map(group=>{
     const j=group.journal;
-    const examples=group.works.slice(0,3).map(w=>'<li><a target="_blank" rel="noopener" href="'+E(w.doi||w.id)+'">'+E(w.title)+'</a> <small>('+(w.publication_year||"s.d.")+')</small></li>').join("");
+    const link=w=>/^https:\/\//.test(w.doi||"")?w.doi:(/^https:\/\/openalex\.org\//.test(w.id||"")?w.id:"https://openalex.org/");
+    const examples=group.works.slice(0,3).map(w=>'<li><a target="_blank" rel="noopener" href="'+E(link(w))+'">'+E(w.title)+'</a> <small>('+E(w.publication_year||"s.d.")+')</small></li>').join("");
     const isReadOnly=j.cobertura_apc==="nao_coberto";
     return '<article class="panel"><div class="topline"><h3>'+E(j.titulo)+'</h3><span class="tag">'+E(j.editora)+'</span></div>'+
       '<p class="muted">'+E(areaName(j.area))+' · '+group.works.length+' artigo(s) semelhante(s) encontrado(s)</p>'+
       '<span class="tag '+(isReadOnly?"yellow":"green")+'">'+(isReadOnly?"Apenas leitura no acordo":"Título no acordo CAPES*")+'</span>'+
       '<details><summary>Ver artigos que fundamentam a sugestão</summary><ul>'+examples+'</ul></details>'+
-      '<div class="actions"><a href="'+E(j.url||j.fonte)+'" target="_blank" rel="noopener">Periódico ↗</a><a href="'+E(j.fonte)+'" target="_blank" rel="noopener">Condições CAPES ↗</a></div></article>';
+      '<div class="actions"><a href="'+E(safeUrl(j.url||j.fonte))+'" target="_blank" rel="noopener">Periódico ↗</a><a href="'+E(safeUrl(j.fonte))+'" target="_blank" rel="noopener">Condições CAPES ↗</a></div></article>';
   }).join("");
  }catch(err){
   if(serial!==requestSerial)return;
-  renderScopeSuggestions(content,terms,"OpenAlex indisponível ("+(err.name==="AbortError"?"tempo excedido":err.message)+"); resultados gerados localmente, sem artigos externos.");
+  renderScopeSuggestions(content,terms,"OpenAlex indisponível ("+(err.name==="AbortError"?"tempo excedido":err.name==="TypeError"?"falha de rede":err.message)+"); resultado gerado localmente.");
  }finally{if(serial===requestSerial){button.disabled=false;button.textContent="Pesquisar artigos semelhantes"}}
 }
 $("abstractInput").addEventListener("input",()=>{$("scientificTerms").value=""});
 $("suggestJournals").onclick=recommendFromAbstract;
+$("scientificTerms").addEventListener("keydown",e=>{if(e.key==="Enter")recommendFromAbstract()});
 $("clearAbstract").onclick=()=>{requestSerial++;$("abstractInput").value="";$("scientificTerms").value="";$("suggestionResults").innerHTML="";$("suggestionStatus").textContent="";$("suggestJournals").disabled=false;$("suggestJournals").textContent="Pesquisar artigos semelhantes"};
 
 let data=[],filtered=[],page=0,ready=false;
